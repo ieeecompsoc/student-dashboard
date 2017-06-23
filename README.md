@@ -1,11 +1,11 @@
 # Student-Dashboard
 
 ## Stack Used
-- Frontend (React) using create-react-app
+- Frontend (React)
 - Backend (Express)
 - Databse (MongoDB)
 - hosting (Heroku)
-- React + Express combined [x]
+- React + Express combined
 
 ### Features
 - React
