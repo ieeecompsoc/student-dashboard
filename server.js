@@ -22,7 +22,7 @@ var apiRoutes = require('./app/apiRoutes');
 dotenv.load();
 var port = process.env.PORT || 8000;
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DATABASE_URL);
+mongoose.connect(process.env.DATABASE_URL,{useMongoClient: true});
 
 require('dotenv').config();
 if (process.env.NODE_ENV === 'DEVELOPMENT')
