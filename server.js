@@ -22,7 +22,7 @@ var apiRoutes = require('./app/apiRoutes');
 dotenv.load();
 var port = process.env.PORT || 8000;
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DATABASE_URL,{useMongoClient: true});
+mongoose.connect(process.env.DATABASE_URL, {useMongoClient: true});
 
 require('dotenv').config();
 if (process.env.NODE_ENV === 'DEVELOPMENT')
@@ -30,15 +30,16 @@ if (process.env.NODE_ENV === 'DEVELOPMENT')
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-// Setting up express to serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules')));
 
 // Routes for the Api
 app.get('/', function (req, res) {
     res.send('Hello! The Api is listening at  http://localhost:' + port + '/api');
 });
 app.use('/api', apiRoutes);
+
+// Setting up express to serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

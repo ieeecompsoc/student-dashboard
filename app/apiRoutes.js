@@ -17,6 +17,7 @@ router.use(function (req, res, next) {
 
 router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    console.log('token: ',token);
     if (token) {
         jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
             if (err) req.decoded = false;
@@ -32,7 +33,7 @@ router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
 
 router.post('/authenticate', authenticate);
 router.post('/addUser', addUser);
-router.get('/getUsers', getUsers);
+router.post('/getUsers', getUsers);
 
 
 module.exports = router;
