@@ -1,10 +1,10 @@
 var path = require('path')
 
 SRC_DIR = path.join(__dirname, 'src')
-DES_DIR = path.join(__dirname, 'public')
+DES_DIR = path.join(__dirname, 'dist')
 
 module.exports = {
-	entry: path.join(SRC_DIR, 'index.jsx'),
+	entry: path.join(SRC_DIR, 'app.jsx'),
 	output: {
 		filename: 'bundle.js',
 		path: path.join(DES_DIR, 'js')
@@ -29,22 +29,34 @@ module.exports = {
 							]
 						}
 				}]
-			},{
-        test: /\.css$/,
-        use: [{
-					loader: 'style-loader'
-				},{
-					loader: 'css-loader',
-					options: {
-						modules: true
-					}
+			}, {
+                test: /\.css$/,
+                use: [{
+                    loader: 'style-loader'
+				}, {
+                    loader: 'css-loader',
+                    options: {
+                        modules: true
+                    }
 				}]
-			},{
-				test: /\.json?$/,
-				loader: 'json'
-			},{
-				test: /\.svg$/, loader: 'svg-loader?pngScale=2'
-			}
+            }, {
+                test: /\.jsonp?$/,
+                loader: 'json'
+            }, {
+                test: /\.(png|gif|jpe?g)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: '/img/[name]-[hash:8].[ext]'
+                }
+            }, {
+                test: /\.(eot|woff|woff2|ttf|svg)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 5000,
+                    name: '/font/[name]-[hash:8].[ext]'
+                }
+            }
 		]
 	}
 }
