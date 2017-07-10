@@ -18,7 +18,7 @@ class LogIn extends Component {
 
     // const Token = {'token': token};
 
-    fetch("http://localhost:3000/api/v1/getUsers",
+    fetch("http://localhost:4000/api/v1/getUsers",
     {
         method: "GET",
         headers: {
@@ -28,9 +28,12 @@ class LogIn extends Component {
         mode: 'cors'
     })
     .then(function(res){return res.json() })
-    .then((data) => {
-      this.setState({loginStatus: true});
-      this.setState({data: data})
+    .then((d) => {
+      this.setState({
+        data: d,
+        loginStatus: true
+      });
+      console.log(d);
     }, () => {
       console.log("Token Expired");
     })
@@ -47,7 +50,7 @@ class LogIn extends Component {
     password: this.refs.password.value
     };
 
-    fetch("http://localhost:3000/api/v1/authenticate",
+    fetch("http://localhost:4000/api/v1/authenticate",
     {
         method: "POST",
         headers: {
@@ -60,7 +63,7 @@ class LogIn extends Component {
     .then(function(data){ console.log(data.token); if(data.token) {
       authSuccess(data.token);
     } }, () => {
-      console.log("Request Failed");
+      alert("Request Failed");
     })
 
     // var myHeaders = new Headers();

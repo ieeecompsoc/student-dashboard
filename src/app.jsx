@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { IndexRoute, Router, Route } from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { IndexRoute, Router, Route,hashHistory } from 'react-router';
 import App from './components/App/App.jsx';
 import Report from './components/Report/Report.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
@@ -11,15 +10,13 @@ import serviceWorker from './registerServiceWorker';
 
 
 ReactDOM.render(
-  <Router history={createBrowserHistory()}>
-        <LogIn>
-          <Route path="/" component={App}>
-              <div>
-                <IndexRoute component={Dashboard} />
-                <Route path="/report" component={Report} />
-            </div>
-          </Route>
-      </LogIn>
+  <Router history={hashHistory}>
+    <Route component={LogIn}>
+      <Route path="/" component={App}>
+        <IndexRoute component={Dashboard} />
+        <Route path="/report" component={Report} />
+      </Route>
+    </Route>
   </Router>
   , document.getElementById('root'));
 

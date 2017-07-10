@@ -3,7 +3,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NavBar from '../Nav/Nav.jsx';
 
-import './App.css';
 injectTapEventPlugin();
 
 class App extends Component {

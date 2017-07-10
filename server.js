@@ -50,5 +50,5 @@ app.get('/api', function(req, res){
 });
 app.use('/api/v1', apiRoutes);
 
-app.listen(3000)
+app.listen(4000)
 console.log('Server running at http://localhost:' + port);

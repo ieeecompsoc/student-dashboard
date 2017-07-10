@@ -3,11 +3,15 @@ import Responsive from 'react-responsive';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import PhoneIcon from 'material-ui/svg-icons/communication/phone';
 
+import styles from '../App/App.css';
+
 const Desktop = ({ children }) => <Responsive minWidth={768} children={children} />;
 const Mobile = ({ children }) => <Responsive maxWidth={767} children={children} />;
 
 export default class Dashboard extends Component {
+
   render() {
+    const data = this.props.data[0];
     return(
         <div className="jumbotron">
           <div className="container">
@@ -36,7 +40,7 @@ export default class Dashboard extends Component {
                    </div>
                   </Mobile>
                 <div className="body">
-                  <div>{this.props.data[0].name}</div>
+                  <div>{data.name}</div>
                   <div><EmailIcon style={{width: "1.6rem"}}/><div><a href="mailto:jethalal@gmail.com">jethalal@gmail.com</a></div></div>
                   <div><PhoneIcon style={{width: "1.6rem"}}/><div>+91-1234567890</div></div>
                   <Desktop>

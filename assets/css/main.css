@@ -3,3 +3,118 @@ body {
 	padding: 10px;
 	box-sizing: border-box;
 }
+
+
+.panel-body .body div:nth-of-type(4) {
+  color: #6a737d;
+  margin-top: 3%;
+}
+
+.panel-body .body div:nth-of-type(2), .panel-body .body div:nth-of-type(3) {
+  display: flex;
+  margin-top: 0.6em;
+}
+
+.panel-body .body div:nth-of-type(2) div, .panel-body .body div:nth-of-type(3) div {
+  font-size: 0.9em;
+  font-family: Roboto;
+  margin-top: 2.5px;
+  margin-left: 0.5em;
+}
+.panel-body .body > div:nth-of-type(1) {
+  font-size: 1.8em;
+  font-weight: 500;
+  font-family: Roboto;
+}
+
+.panel-body {
+  display: flex !important;
+  flex-wrap: wrap;
+  justify-content: space-around !important;
+}
+
+.panel-body .img {
+  flex: 1;
+}
+
+.panel-body .body > * {
+  margin-left: 5%;
+}
+
+.panel-body .body {
+  width: 60%;
+  flex: 4;
+  margin-left: 5%;
+  border-left: 1px solid #EEEEEE;
+}
+
+.drawerFooter {
+  margin : 0 !important;
+  padding: 0 !important;
+  text-align: center;
+}
+
+.menuItem{
+  color: #212121 !important;
+  background: #00BCD4 !important;
+  font-family: 'Source Sans Pro', sans-serif !important;
+  font-size: 1.3em !important;
+  border-bottom: 1px solid #00838F !important;
+  transition: 0.35s all;
+  font-weight: 600 !important;
+  height: 30px;
+}
+
+.menuItem:hove {
+  background: #B388FF !important;
+  color: #00BCD4 !important;
+}
+
+.badges {
+  margin-top: 18% !important;
+  padding: 0 !important;
+}
+
+.badges > span {
+  width: 16px !important;
+  height: 16px !important;
+  color: white !important;
+  background: #00181B !important;
+}
+
+.badgeD {
+  margin-top: 13px !important;
+  padding: 0 !important;
+}
+
+.badgeD *, .flatD  * {
+  font-weight: 500 !important;
+}
+
+.notification > span {
+  left: 17% !important;
+  top: -12% !important;
+}
+
+.notificationM > span {
+  left: 55% !important;
+}
+
+.message > span {
+  left: 27% !important;
+  top: -12% !important;
+}
+
+
+.flatM {
+  margin-top: 18% !important;
+}
+
+.flatD {
+  margin-top: 13px !important;
+}
+
+.mobileIcon {
+  position: relative !important;
+  left: 40% !important;
+}
