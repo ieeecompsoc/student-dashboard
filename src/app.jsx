@@ -1,43 +1,26 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import styles from './style.css'
-import logo from './logo.svg'
-import serviceWorker from './registerServiceWorker'
-
-class App extends React.Component{
-	// constructor to define initial state
-	constructor() {
-		super()
-		this.state = {
-			count: 0
-		}
-	}
-	
-	// Fired eactly after the component was mounted
-	componentDidMount() {
-		this.counter = setInterval(() => {
-			this.setState({count: this.state.count + 1})
-		}, 1000)
-	}
-	
-	// Fired exactly before the component will be unmounted
-	componentWillUnmount() {
-		clearInterval(this.counter)
-	}
-	
-	render() {
-		return (
-			<div className={`container ${styles.div}`}>
-                <img src={logo} width="300"/>
-				<h1>Hello World!</h1>
-				<h3>You spend {this.state.count}sec on this page!</h3>
-			</div>
-		)
-	}
-}
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { IndexRoute, Router, Route } from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
+import App from './components/App/App.jsx';
+import Report from './components/Report/Report.jsx';
+import Dashboard from './components/Dashboard/Dashboard.jsx';
+import LogIn from './components/Login/LogIn.jsx';
+import './app.css';
+import serviceWorker from './registerServiceWorker';
 
 
-export default App
+ReactDOM.render(
+  <Router history={createBrowserHistory()}>
+        <LogIn>
+          <Route path="/" component={App}>
+              <div>
+                <IndexRoute component={Dashboard} />
+                <Route path="/report" component={Report} />
+            </div>
+          </Route>
+      </LogIn>
+  </Router>
+  , document.getElementById('root'));
 
-ReactDOM.render(<App />, document.getElementById('root'))
-serviceWorker()
+serviceWorker();
