@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
+import CircularProgress from 'material-ui/CircularProgress';
+import Snackbar from 'material-ui/Snackbar';
+import classnames from 'classnames';
 import axios from 'axios';
 
 injectTapEventPlugin();
@@ -8,7 +14,10 @@ class LogIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            requestFailed: false,
+            enrollment: "",
+            password: "",
+            wrongCredentials: false,
+            tokenExpired: false,
             isLoading: false,
             loginStatus: false,
             data: []
@@ -16,8 +25,19 @@ class LogIn extends Component {
 
     }
 
+    handleRequestClose = () => {
+      this.setState({
+        wrongCredentials: false,
+        tokenExpired: false
+      })
+    }
+
+    handleChange = (e) => {
+      this.setState({ [e.target.name] : e.target.value})
+    }
+
     authFailure = () => {
-        this.setState({requestFailed: true, isLoading: false})
+        this.setState({wrongCredentials: true, isLoading: false});
     }
 
     authSuccess = (token) => {
@@ -38,14 +58,8 @@ class LogIn extends Component {
                 thiss.setState({data: response.data[0], loginStatus: true})
             })
             .catch(function (error) {
-                console.log("error");
+                thiss.setState({ tokenExpired : true, isLoading: false })
             });
-
-        // fetch("http://localhost:4000/api/v1/getUsers", {     method: "GET",
-        // headers: {       'Content-Type': 'application/x-www-form-urlencoded',
-        // 'x-access-token': token     },     mode: 'cors' }) .then(function(res){return
-        // res.json() }) .then((d) => {   this.setState({     data: d,     loginStatus:
-        // true   });   console.log(d); }, () => {   console.log("Token Expired"); })
     }
 
     authenticate = (e) => {
@@ -58,8 +72,8 @@ class LogIn extends Component {
         const authFailure = this.authFailure;
 
         const payload = {
-            enrollment: this.refs.enrollment.value,
-            password: this.refs.password.value
+            enrollment: this.state.enrollment,
+            password: this.state.password
         };
 
         axios({
@@ -78,34 +92,82 @@ class LogIn extends Component {
                 authFailure();
             });
 
-        // fetch("http://localhost:4000/api/v1/authenticate", {     method: "POST",
-        // headers: {       'Content-Type': 'application/x-www-form-urlencoded'     },
-        //   mode: 'cors',     body: JSON.stringify(payload) })
-        // .then(function(res){return res.json() }) .then(function(data){
-        // console.log(data.token);   if(data.token) {     authSuccess(data.token);   }
-        // else {     console.log("request failed");     authFailure();   } })
-
     }
 
     checkAuthentication = () => {
+
+      const styles = {
+        floatingLabelStyle: {
+          color: "#133751",
+        },
+        floatingLabelFocusStyle: {
+          color: "#133751",
+        },
+        underlineStyle: {
+          borderColor: "#455A64",
+        },
+        underlineFocusStyle: {
+          borderColor: "#133751"
+        }
+      };
 
         if (this.state.loginStatus) {
             return (this.props.children && React.cloneElement(this.props.children, {data: this.state.data}))
         } else {
             return (
                 <div>
-                {this.state.isLoading && <p> Loading ... </p>}
-                {
-                    !this.state.isLoading && <form onSubmit = { this.authenticate } >
-                        <label htmlFor = "enrollment" > Enrollment No. </label>
-                        <input type = "text" id = "enrollment" ref = "enrollment" name = "enrollment" />
-                        <br />
-                        <label htmlFor = "password" > Password </label>
-                        <input type = "password" id = "password" ref = "password" name = "password" />
-                        <br />
-                        <button type = "submit"> Submit </button>
-                    </form>
-                }
+                  <MuiThemeProvider>
+                    <div className="login">
+                      <div className="form" >
+                        <div className="form-head">Student Login</div>
+                        <hr className="hr" />
+                        {!this.state.isLoading && <form onSubmit = { this.authenticate } >
+                          <TextField
+                            floatingLabelText="Enrollment No."
+                            floatingLabelStyle={styles.floatingLabelStyle}
+                            floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                            underlineFocusStyle={styles.underlineFocusStyle}
+                            underlineStyle={styles.underlineStyle}
+                            name="enrollment"
+                            className={classnames('text-input')}
+                            onChange={(e) => {this.handleChange(e)}}
+                          />
+                          <br />
+                          <TextField
+                            floatingLabelText="Password"
+                            floatingLabelStyle={styles.floatingLabelStyle}
+                            floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                            underlineFocusStyle={styles.underlineFocusStyle}
+                            underlineStyle={styles.underlineStyle}
+                            className={classnames('text-input')}
+                            type="password"
+                            name="password"
+                            onChange={(e) => {this.handleChange(e)}}
+                          />
+                          <br />
+                          <Checkbox
+                            label="Remember me?"
+                            iconStyle={{fill: 'black'}}
+                            className={classnames('checkbox')}
+                          />
+                          <button type = "submit" className="submit">Log In</button>
+                        </form>}
+                        {this.state.isLoading && <CircularProgress size={80} thickness={5} color="#263238"/>}
+                        <Snackbar
+                          open={this.state.wrongCredentials}
+                          message="Wrong Credentials!! Try Again"
+                          autoHideDuration={4000}
+                          onRequestClose={this.handleRequestClose}
+                        />
+                        <Snackbar
+                          open={this.state.tokenExpired}
+                          message="Token Expired!!"
+                          autoHideDuration={4000}
+                          onRequestClose={this.handleRequestClose}
+                        />
+                      </div>
+                    </div>
+                  </MuiThemeProvider>
                 </div>
             )
         }
