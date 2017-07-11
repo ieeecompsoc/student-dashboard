@@ -3,8 +3,8 @@ import Responsive from 'react-responsive';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import PhoneIcon from 'material-ui/svg-icons/communication/phone';
 
-const Desktop = ({ children }) => <Responsive minWidth={768} children={children} />;
-const Mobile = ({ children }) => <Responsive maxWidth={767} children={children} />;
+const Desktop = ({ children }) => <Responsive minDeviceWidth={768} children={children} />;
+const Mobile = ({ children }) => <Responsive maxDeviceWidth={768} children={children} />;
 
 export default class Dashboard extends Component {
 

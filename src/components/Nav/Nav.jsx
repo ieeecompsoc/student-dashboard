@@ -11,8 +11,8 @@ import FlatButton from 'material-ui/FlatButton';
 import Badge from 'material-ui/Badge';
 import Drawer from '../Drawer/Drawer.jsx';
 
-const Desktop = ({ children }) => <Responsive minWidth={768} children={children} />;
-const Mobile = ({ children }) => <Responsive maxWidth={767} children={children} />;
+const Desktop = ({ children }) => <Responsive minDeviceWidth={768} children={children} />;
+const Mobile = ({ children }) => <Responsive maxDeviceWidth={767} children={children} />;
 
 export default class Nav extends Component {
   constructor(props) {
