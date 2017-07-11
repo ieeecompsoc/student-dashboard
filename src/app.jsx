@@ -5,7 +5,6 @@ import App from './components/App/App.jsx';
 import Report from './components/Report/Report.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
 import LogIn from './components/Login/LogIn.jsx';
-import './app.css';
 import serviceWorker from './registerServiceWorker';
 
 

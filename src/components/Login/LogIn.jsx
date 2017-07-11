@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import axios from 'axios';
+
+injectTapEventPlugin();
 
 class LogIn extends Component {
   constructor(props) {
@@ -10,90 +14,106 @@ class LogIn extends Component {
       data: []
     }
 
-    this.authenticate = this.authenticate.bind(this);
-    this.authSuccess = this.authSuccess.bind(this);
+  }
+
+  authFailure = () => {
+    this.setState({requestFailed: true, isLoading: false})
   }
 
   authSuccess = (token) => {
 
-    // const Token = {'token': token};
+    const thiss = this;
 
-    fetch("http://localhost:4000/api/v1/getUsers",
-    {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'x-access-token': token
-        },
-        mode: 'cors'
+    axios({
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'x-access-token': token
+      },
+      url: 'http://localhost:4000/api/v1/getUsers',
+      mode: 'cors',
     })
-    .then(function(res){return res.json() })
-    .then((d) => {
-      this.setState({
-        data: d,
-        loginStatus: true
-      });
-      console.log(d);
-    }, () => {
-      console.log("Token Expired");
+    .then(function (response) {
+      console.log(response.data[0]);
+      thiss.setState({
+          data: response.data[0],
+          loginStatus: true,
+        })
     })
+    .catch(function (error) {
+      console.log("error");
+    });
+
+    // fetch("http://localhost:4000/api/v1/getUsers",
+    // {
+    //     method: "GET",
+    //     headers: {
+    //       'Content-Type': 'application/x-www-form-urlencoded',
+    //       'x-access-token': token
+    //     },
+    //     mode: 'cors'
+    // })
+    // .then(function(res){return res.json() })
+    // .then((d) => {
+    //   this.setState({
+    //     data: d,
+    //     loginStatus: true
+    //   });
+    //   console.log(d);
+    // }, () => {
+    //   console.log("Token Expired");
+    // })
   }
 
   authenticate = (e) => {
     e.preventDefault();
+    this.setState({isLoading: true});
+
     console.log("authenticating")
 
     const authSuccess = this.authSuccess;
+    const authFailure = this.authFailure;
 
     const payload = {
     enrollment: this.refs.enrollment.value,
     password: this.refs.password.value
     };
 
-    fetch("http://localhost:4000/api/v1/authenticate",
-    {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        mode: 'cors',
-        body: JSON.stringify(payload)
+    axios({
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      url: 'http://localhost:4000/api/v1/authenticate',
+      mode: 'cors',
+      data: JSON.stringify(payload)
     })
-    .then(function(res){return res.json() })
-    .then(function(data){ console.log(data.token); if(data.token) {
-      authSuccess(data.token);
-    } }, () => {
-      alert("Request Failed");
+    .then(function (response) {
+      authSuccess(response.data.token);
     })
+    .catch(function (error) {
+      authFailure();
+    });
 
-    // var myHeaders = new Headers();
-    // myHeaders.append('Access-Control-Allow-Origin', '*');
-    //
-    // const myInit = { method: 'GET',
-    //                  headers: myHeaders,
-    //                  mode: 'no-cors',
-    //                  cache: 'default' };
-    //
-    // fetch('http://122.162.84.195:4000/api/authenticate', myInit)
-    //   .then(response => {
-    //     if(!response.ok) {
-    //       throw Error("Network Request Failed")
-    //     }
-    //     return response;
-    //   })
-    //   .then(d => d.json())
-    //   .then(d => {
-    //     this.setState({
-    //       data: d,
-    //       loginStatus: true
-    //     })
-    //     console.log(d);
-    //   },() => {
-    //     this.setState({
-    //       requestFailed: true
-    //     })
-    //     console.log("Error")
-    //   })
+    // fetch("http://localhost:4000/api/v1/authenticate",
+    // {
+    //     method: "POST",
+    //     headers: {
+    //       'Content-Type': 'application/x-www-form-urlencoded'
+    //     },
+    //     mode: 'cors',
+    //     body: JSON.stringify(payload)
+    // })
+    // .then(function(res){return res.json() })
+    // .then(function(data){
+    //   console.log(data.token);
+    //   if(data.token) {
+    //     authSuccess(data.token);
+    //   } else {
+    //     console.log("request failed");
+    //     authFailure();
+    //   }
+    // })
 
   }
 
@@ -109,13 +129,17 @@ class LogIn extends Component {
     else {
       return(
         <div>
-          <form onSubmit={this.authenticate}>
+          {this.state.isLoading && <p>Loading...</p>}
+          { !this.state.isLoading
+            &&
+            <form onSubmit={this.authenticate}>
             <label htmlFor="enrollment">Enrollment No. </label>
             <input type="text" id="enrollment" ref="enrollment" name="enrollment" /><br />
             <label htmlFor="password">Password </label>
             <input type="password" id="password" ref="password" name="password" /><br />
             <button type="submit">Submit</button>
-          </form>
+            </form>
+          }
         </div>
       )
     }

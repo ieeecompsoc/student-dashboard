@@ -3,15 +3,13 @@ import Responsive from 'react-responsive';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import PhoneIcon from 'material-ui/svg-icons/communication/phone';
 
-import styles from '../App/App.css';
-
 const Desktop = ({ children }) => <Responsive minWidth={768} children={children} />;
 const Mobile = ({ children }) => <Responsive maxWidth={767} children={children} />;
 
 export default class Dashboard extends Component {
 
   render() {
-    const data = this.props.data[0];
+    const data = this.props.data;
     return(
         <div className="jumbotron">
           <div className="container">
