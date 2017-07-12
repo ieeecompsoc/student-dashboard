@@ -5,6 +5,9 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import CircularProgress from 'material-ui/CircularProgress';
 import Snackbar from 'material-ui/Snackbar';
+import IconButton from 'material-ui/IconButton';
+import ViewIcon from 'material-ui/svg-icons/action/visibility';
+import HideIcon from 'material-ui/svg-icons/action/visibility-off';
 import classnames from 'classnames';
 import axios from 'axios';
 
@@ -20,9 +23,16 @@ class LogIn extends Component {
             tokenExpired: false,
             isLoading: false,
             loginStatus: false,
-            data: []
+            data: [],
+            passwordType: "password"
         }
 
+    }
+
+    checkViewIcon = () => {
+      if(this.state.passwordType === "password")
+        return <ViewIcon />;
+      return <HideIcon />;
     }
 
     handleRequestClose = () => {
@@ -108,6 +118,15 @@ class LogIn extends Component {
         },
         underlineFocusStyle: {
           borderColor: "#133751"
+        },
+        ViewIcon: {
+          position: 'absolute',
+          right: 15,
+          top: 25,
+          width: 20,
+          height: 20,
+          cursor: 'pointer',
+          color: 'black'
         }
       };
 
@@ -118,10 +137,11 @@ class LogIn extends Component {
                 <div>
                   <MuiThemeProvider>
                     <div className="login">
-                      <div className="form" >
+                      {this.state.isLoading && <CircularProgress size={80} thickness={5} color="white" style={{margin: 'auto'}}/>}
+                      {!this.state.isLoading && <div className="form" >
                         <div className="form-head">Student Login</div>
                         <hr className="hr" />
-                        {!this.state.isLoading && <form onSubmit = { this.authenticate } >
+                        <form onSubmit = { this.authenticate } >
                           <TextField
                             floatingLabelText="Enrollment No."
                             floatingLabelStyle={styles.floatingLabelStyle}
@@ -129,30 +149,39 @@ class LogIn extends Component {
                             underlineFocusStyle={styles.underlineFocusStyle}
                             underlineStyle={styles.underlineStyle}
                             name="enrollment"
+                            type="number"
                             className={classnames('text-input')}
                             onChange={(e) => {this.handleChange(e)}}
                           />
                           <br />
-                          <TextField
-                            floatingLabelText="Password"
-                            floatingLabelStyle={styles.floatingLabelStyle}
-                            floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                            underlineFocusStyle={styles.underlineFocusStyle}
-                            underlineStyle={styles.underlineStyle}
-                            className={classnames('text-input')}
-                            type="password"
-                            name="password"
-                            onChange={(e) => {this.handleChange(e)}}
-                          />
+                          <div style={{position: 'relative', display: 'inline-block'}}>
+                                <TextField
+                                  floatingLabelText="Password"
+                                  floatingLabelStyle={styles.floatingLabelStyle}
+                                  floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                                  underlineFocusStyle={styles.underlineFocusStyle}
+                                  underlineStyle={styles.underlineStyle}
+                                  className={classnames('text-input password')}
+                                  type={this.state.passwordType}
+                                  name="password"
+                                  onChange={(e) => {this.handleChange(e)}}
+
+                                />
+                                {this.state.password === "" ? null : <IconButton style={styles.ViewIcon} disableTouchRipple={true} onTouchTap={() => {
+                                  this.setState({passwordType : this.state.passwordType === "password"? "text" : "password"})
+                                }}>
+                                {this.checkViewIcon()}
+                              </IconButton>}
+                          </div>
                           <br />
                           <Checkbox
                             label="Remember me?"
                             iconStyle={{fill: 'black'}}
                             className={classnames('checkbox')}
+                            disableTouchRipple={true}
                           />
                           <button type = "submit" className="submit">Log In</button>
-                        </form>}
-                        {this.state.isLoading && <CircularProgress size={80} thickness={5} color="#263238"/>}
+                        </form>
                         <Snackbar
                           open={this.state.wrongCredentials}
                           message="Wrong Credentials!! Try Again"
@@ -165,7 +194,7 @@ class LogIn extends Component {
                           autoHideDuration={4000}
                           onRequestClose={this.handleRequestClose}
                         />
-                      </div>
+                      </div>}
                     </div>
                   </MuiThemeProvider>
                 </div>

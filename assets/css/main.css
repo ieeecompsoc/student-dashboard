@@ -34,8 +34,16 @@ body {
 
 .text-input {
 	padding: 0 !important;
-	font-size: 1em !important;
+	font-size: 1.2em !important;
 	letter-spacing: 0.1em;
+
+}
+
+.text-input input {
+	color: black !important;
+	font-weight: 500 !important;
+	letter-spacing: 1px;
+	font-size: 1.2em !important;
 }
 
 hr.hr {
