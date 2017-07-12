@@ -179,22 +179,23 @@ class LogIn extends Component {
                             iconStyle={{fill: 'black'}}
                             className={classnames('checkbox')}
                             disableTouchRipple={true}
+                            defaultChecked
                           />
                           <button type = "submit" className="submit">Log In</button>
                         </form>
-                        <Snackbar
-                          open={this.state.wrongCredentials}
-                          message="Wrong Credentials!! Try Again"
-                          autoHideDuration={4000}
-                          onRequestClose={this.handleRequestClose}
-                        />
-                        <Snackbar
-                          open={this.state.tokenExpired}
-                          message="Token Expired!!"
-                          autoHideDuration={4000}
-                          onRequestClose={this.handleRequestClose}
-                        />
                       </div>}
+                      <Snackbar
+                        open={this.state.wrongCredentials}
+                        message="Wrong Credentials!! Try Again"
+                        autoHideDuration={4000}
+                        onRequestClose={this.handleRequestClose}
+                      />
+                      <Snackbar
+                        open={this.state.tokenExpired}
+                        message="Token Expired!!"
+                        autoHideDuration={4000}
+                        onRequestClose={this.handleRequestClose}
+                      />
                     </div>
                   </MuiThemeProvider>
                 </div>
