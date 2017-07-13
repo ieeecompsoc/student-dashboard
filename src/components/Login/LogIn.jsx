@@ -8,7 +8,6 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import ViewIcon from 'material-ui/svg-icons/action/visibility';
 import HideIcon from 'material-ui/svg-icons/action/visibility-off';
-//import ReturnIcon from 'material-ui/svg-icons/hardware/keyboard-backspace';
 import classnames from 'classnames';
 import axios from 'axios';
 
@@ -174,7 +173,6 @@ class LogIn extends Component {
                                     type={this.state.passwordType}
                                     name="password"
                                     onChange={(e) => {this.handleChange(e)}}
-
                                   />
                                   {this.state.password === "" ? null : <IconButton style={styles.ViewIcon} disableTouchRipple={true} onTouchTap={() => {
                                     this.setState({passwordType : this.state.passwordType === "password"? "text" : "password"})

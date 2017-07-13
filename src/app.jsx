@@ -5,6 +5,8 @@ import App from './components/App/App.jsx';
 import Report from './components/Report/Report.jsx';
 import Dashboard from './components/Dashboard/Dashboard.jsx';
 import LogIn from './components/Login/LogIn.jsx';
+import Reset from './components/Reset/Reset.jsx';
+import NotFound from './components/404/404.jsx';
 import serviceWorker from './registerServiceWorker';
 
 
@@ -16,6 +18,7 @@ ReactDOM.render(
         <Route path="/report" component={Report} />
       </Route>
     </Route>
+    <Route path="*" component={NotFound} />
   </Router>
   , document.getElementById('root'));
 
