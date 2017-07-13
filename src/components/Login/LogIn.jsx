@@ -8,6 +8,7 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import ViewIcon from 'material-ui/svg-icons/action/visibility';
 import HideIcon from 'material-ui/svg-icons/action/visibility-off';
+//import ReturnIcon from 'material-ui/svg-icons/hardware/keyboard-backspace';
 import classnames from 'classnames';
 import axios from 'axios';
 
@@ -19,14 +20,21 @@ class LogIn extends Component {
         this.state = {
             enrollment: "",
             password: "",
+            email: "",
             wrongCredentials: false,
             tokenExpired: false,
             isLoading: false,
             loginStatus: false,
             data: [],
-            passwordType: "password"
+            passwordType: "password",
+            resetPassword: false
         }
 
+    }
+
+    resetPassword = (e) => {
+      e.preventDefault();
+      console.log(this.state.email);
     }
 
     checkViewIcon = () => {
@@ -139,50 +147,75 @@ class LogIn extends Component {
                     <div className="login">
                       {this.state.isLoading && <CircularProgress size={80} thickness={5} color="white" style={{margin: 'auto'}}/>}
                       {!this.state.isLoading && <div className="form" >
-                        <div className="form-head">Student Login</div>
-                        <hr className="hr" />
-                        <form onSubmit = { this.authenticate } >
-                          <TextField
-                            floatingLabelText="Enrollment No."
-                            floatingLabelStyle={styles.floatingLabelStyle}
-                            floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                            underlineFocusStyle={styles.underlineFocusStyle}
-                            underlineStyle={styles.underlineStyle}
-                            name="enrollment"
-                            type="number"
-                            className={classnames('text-input')}
-                            onChange={(e) => {this.handleChange(e)}}
-                          />
-                          <br />
-                          <div style={{position: 'relative', display: 'inline-block'}}>
-                                <TextField
-                                  floatingLabelText="Password"
-                                  floatingLabelStyle={styles.floatingLabelStyle}
-                                  floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                                  underlineFocusStyle={styles.underlineFocusStyle}
-                                  underlineStyle={styles.underlineStyle}
-                                  className={classnames('text-input password')}
-                                  type={this.state.passwordType}
-                                  name="password"
-                                  onChange={(e) => {this.handleChange(e)}}
+                        {!this.state.resetPassword && <div>
+                          <div className="form-head">Student Login</div>
+                          <hr className="hr" />
+                          <form onSubmit = { this.authenticate } >
+                            <TextField
+                              floatingLabelText="Enrollment No."
+                              floatingLabelStyle={styles.floatingLabelStyle}
+                              floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                              underlineFocusStyle={styles.underlineFocusStyle}
+                              underlineStyle={styles.underlineStyle}
+                              name="enrollment"
+                              type="text"
+                              className={classnames('text-input')}
+                              onChange={(e) => {this.handleChange(e)}}
+                            />
+                            <br />
+                            <div style={{position: 'relative', display: 'inline-block'}}>
+                                  <TextField
+                                    floatingLabelText="Password"
+                                    floatingLabelStyle={styles.floatingLabelStyle}
+                                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                                    underlineFocusStyle={styles.underlineFocusStyle}
+                                    underlineStyle={styles.underlineStyle}
+                                    className={classnames('text-input password')}
+                                    type={this.state.passwordType}
+                                    name="password"
+                                    onChange={(e) => {this.handleChange(e)}}
 
-                                />
-                                {this.state.password === "" ? null : <IconButton style={styles.ViewIcon} disableTouchRipple={true} onTouchTap={() => {
-                                  this.setState({passwordType : this.state.passwordType === "password"? "text" : "password"})
-                                }}>
-                                {this.checkViewIcon()}
-                              </IconButton>}
+                                  />
+                                  {this.state.password === "" ? null : <IconButton style={styles.ViewIcon} disableTouchRipple={true} onTouchTap={() => {
+                                    this.setState({passwordType : this.state.passwordType === "password"? "text" : "password"})
+                                  }}>
+                                  {this.checkViewIcon()}
+                                </IconButton>}
+                            </div>
+                            <br />
+                            <Checkbox
+                              label="Remember me?"
+                              iconStyle={{fill: 'black'}}
+                              className={classnames('checkbox')}
+                              disableTouchRipple={true}
+                              defaultChecked
+                            />
+                            <button type = "submit" className="submit">Log In</button>
+                          </form>
+                          <div className="forgot-btn" onClick={() => this.setState({resetPassword : true})}>Forgotton password?</div>
+                        </div>}
+                        {
+                          this.state.resetPassword && <div>
+                            <div className="form-head">Reset Password</div>
+                            <hr className="hr" />
+                            <form onSubmit = { this.resetPassword } >
+                              <TextField
+                                floatingLabelText="Email Address"
+                                floatingLabelStyle={styles.floatingLabelStyle}
+                                floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                                underlineFocusStyle={styles.underlineFocusStyle}
+                                underlineStyle={styles.underlineStyle}
+                                name="email"
+                                type="email"
+                                className={classnames('text-input')}
+                                onChange={(e) => {this.handleChange(e)}}
+                              />
+                              <br />
+                              <button type = "submit" className="submit">Submit</button>
+                            </form>
+                            <div className="forgot-btn back" onClick={() => this.setState({resetPassword : false})}><span className="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Return to Login</div>
                           </div>
-                          <br />
-                          <Checkbox
-                            label="Remember me?"
-                            iconStyle={{fill: 'black'}}
-                            className={classnames('checkbox')}
-                            disableTouchRipple={true}
-                            defaultChecked
-                          />
-                          <button type = "submit" className="submit">Log In</button>
-                        </form>
+                        }
                       </div>}
                       <Snackbar
                         open={this.state.wrongCredentials}
