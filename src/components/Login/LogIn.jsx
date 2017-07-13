@@ -184,7 +184,7 @@ class LogIn extends Component {
                             </div>
                             <br />
                             <Checkbox
-                              label="Remember me?"
+                              label="Remember me"
                               iconStyle={{fill: 'black'}}
                               className={classnames('checkbox')}
                               disableTouchRipple={true}

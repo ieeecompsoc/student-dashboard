@@ -13,6 +13,7 @@ body {
 	color: black;
 	text-decoration: underline;
 	cursor: pointer;
+	font-family: 'Source Sans Pro';
 }
 
 .form .submit {
