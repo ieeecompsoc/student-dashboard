@@ -18,6 +18,7 @@ ReactDOM.render(
         <Route path="/report" component={Report} />
       </Route>
     </Route>
+    <Route path="/reset/:enrollment/:token" component={Reset} />
     <Route path="*" component={NotFound} />
   </Router>
   , document.getElementById('root'));

@@ -16,6 +16,7 @@ class Reset extends Component {
       passwordType: "password",
       confirmPasswordType: "password",
       passwordMatch: true,
+      passwordEmpty: false,
       password: "",
       confirmPassword: ""
     }
@@ -30,17 +31,20 @@ class Reset extends Component {
 
   handleRequestClose = () => {
     this.setState({
-      passwordMatch: true
+      passwordMatch: true,
+      passwordEmpty: false
     })
   }
 
   changePassword = (e) => {
     e.preventDefault();
-    if(this.state.password  === this.state.confirmPassword)
+
+    if(this.state.password === "" || this.state.confirmPassword === "")
+      this.setState({passwordEmpty : true})
+    else if(this.state.password  === this.state.confirmPassword)
       console.log("Password Matched");
-    else {
+    else
       this.setState({passwordMatch : false})
-    }
   }
 
   checkViewIcon = (type) => {
@@ -128,6 +132,12 @@ class Reset extends Component {
             <Snackbar
               open={!this.state.passwordMatch}
               message="Password does not match"
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose}
+            />
+            <Snackbar
+              open={this.state.passwordEmpty}
+              message="Password Empty!"
               autoHideDuration={4000}
               onRequestClose={this.handleRequestClose}
             />
