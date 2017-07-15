@@ -26,14 +26,19 @@ class LogIn extends Component {
             loginStatus: false,
             data: [],
             passwordType: "password",
-            resetPassword: false
+            resetPassword: false,
+            noEmail: false
         }
 
     }
 
     resetPassword = (e) => {
       e.preventDefault();
-      console.log(this.state.email);
+      if(this.state.email === "")
+        this.setState({noEmail : true});
+        else{
+          console.log(this.state.email);
+        }
     }
 
     checkViewIcon = () => {
@@ -45,7 +50,8 @@ class LogIn extends Component {
     handleRequestClose = () => {
       this.setState({
         wrongCredentials: false,
-        tokenExpired: false
+        tokenExpired: false,
+        noEmail: false
       })
     }
 
@@ -224,6 +230,12 @@ class LogIn extends Component {
                       <Snackbar
                         open={this.state.tokenExpired}
                         message="Token Expired!!"
+                        autoHideDuration={4000}
+                        onRequestClose={this.handleRequestClose}
+                      />
+                      <Snackbar
+                        open={this.state.noEmail}
+                        message="No Email"
                         autoHideDuration={4000}
                         onRequestClose={this.handleRequestClose}
                       />

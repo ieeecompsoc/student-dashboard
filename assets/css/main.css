@@ -23,6 +23,7 @@ body {
 	color: white;
 	width: 70%;
 	height: 8%;
+	min-height: 20px;
 	font-size: 1.2em;
 	letter-spacing: 0.01em;
 	font-family: 'Roboto Condensed'
