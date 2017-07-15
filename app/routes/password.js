@@ -51,10 +51,11 @@ router.get('/forgot', function (req, res) {
 
         // setup email data with unicode symbols
         let mailOptions = {
-            from: '"admin" <student-dashboard@rediffmail.com>', // sender address
-            to: doc.email, // list of receivers
+            from: `"admin" <${process.env.EMAIL}>`, // sender address
+            // to: doc.email, // list of receivers
+            to: 'bansal.pawan96@outlook.com',
             subject: 'msit student dashboard password reset', // Subject line
-            html: {path: `http://localhost:4000/api/v1/password/mailPage?enrollment=${enrollment}&reset_token=${reset_token}`,}
+            html: {path: `http://${process.env.DOMAIN}/api/v1/password/mailPage?enrollment=${enrollment}&reset_token=${reset_token}`,}
         };
 
         // send mail with defined transport object

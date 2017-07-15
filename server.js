@@ -14,6 +14,7 @@ var port = process.env.PORT || 8000;
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views/resetPassword"));
+
 var apiRoutes = require('./app/apiRoutes');
 
 mongoose.Promise = global.Promise;
@@ -38,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'dist')))
 app.use(express.static(path.join(__dirname, 'assets')))
 app.use(express.static(path.join(__dirname, 'node_modules')))
+app.use(express.static(path.join(__dirname, 'views')))
 
 // we always want to serve the index.hbs
 app.get('/', (req, res) => {
