@@ -4,9 +4,12 @@
 const express = require('express');
 const router = express.Router();
 const assert = require('assert');
+const path = require('path');
 const User = require('../models/user');
 const Student = require('../models/student');
 const nodemailer = require('nodemailer');
+
+
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
@@ -15,7 +18,7 @@ let transporter = nodemailer.createTransport({
     secure: true, // secure:true for port 465, secure:false for port 587
     auth: {
         user: 'student-dashboard@mailinator.com',
-        pass: 'userpass'
+        pass: ''
     }
 });
 
@@ -37,12 +40,13 @@ router.get('/forgot', function (req, res) {
     if (!req.query.enrollment) {
         return res.status(400).json({success: false, msg: "Please submit your enrollment number"});
     }
-    if (req.query.enrollment.length !== 11) {
+    let enrollment = req.query.enrollment;
+    if (enrollment.length !== 11) {
         return res.status(400).json({success: false, msg: "Invalid Credentials."});
     }
 
     const reset_token = getID();
-    User.findOneAndUpdate({"enrollment": req.body.enrollment}, {reset_token: reset_token}, function (err, doc) {
+    User.findOneAndUpdate({"enrollment": enrollment}, {reset_token: reset_token}, function (err, doc) {
         if (err) {
             return res.status(400).json({success: false, msg: "Invalid Credentials."});
         }
@@ -52,22 +56,32 @@ router.get('/forgot', function (req, res) {
             from: '"admin" <student-dashboard@mailinator.com>', // sender address
             to: doc.email, // list of receivers
             subject: 'msit student dashboard password reset', // Subject line
-            html: '<b>Hello world ?</b>' // html body
+            html: `http://${process.env.DOMAIN_FOR_MAIL}/api/v1/password/mailPage?enrollment=${enrollment}&reset_token=${reset_token}`,
         };
 
         // send mail with defined transport object
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                return console.log(error);
+                console.log(error);
+                return res.status(400).json({success: false, msg: "Error sending mail"});
             }
             console.log('Message %s sent: %s', info.messageId, info.response);
+            res.status(200).json({success: true, msg: "Password reset link sent on e-mail"});
         });
-
-        res.status(200).json({success: true, msg: "Password reset link sent on e-mail"});
     });
 })
 
-route.post('/checkResetToken', function (req, res) {
+router.get('/mailPage', function (req, res) {
+    let enrollment = req.query.enrollment;
+    let reset_token = req.query.reset_token;
+    if (!enrollment || !reset_token || enrollment.length !== 11)
+        return res.status(400).send('invalid request');
+
+    let linkToReset = `http://${process.env.DOMAIN}/#/reset/${enrollment}/${reset_token}`;
+    res.render('index', {linkToReset: linkToReset})
+})
+
+router.post('/checkResetToken', function (req, res) {
     if (!req.body.enrollment || !req.body.reset_token || req.body.enrollment.length !== 11)
         return res.status(400).json({success: false, msg: "Invalid"});
     User.findOne({

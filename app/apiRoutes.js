@@ -36,7 +36,7 @@ router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
 router.post('/authenticate', routes.authenticate);
 router.post('/addUser', routes.addUser);
 router.get('/getUsers', routes.getUsers);
-router.get('/password', routes.password);
+router.use('/password', routes.password);
 
 
 module.exports = router;

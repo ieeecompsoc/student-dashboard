@@ -9,7 +9,7 @@ var User = new Schema({
         required: true
     },
     email: {
-        type: string,
+        type: String,
         required: true
     },
     password: {
@@ -17,7 +17,7 @@ var User = new Schema({
         required: true
     },
     reset_token: {
-        type: string
+        type: String
     },
     admin: {
         type: Boolean,

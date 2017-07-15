@@ -27,6 +27,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "../../views/resetPassword"));
 
 // Setting up express to serve static files
 
@@ -35,12 +37,12 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.use(express.static(path.join(__dirname, 'assets')))
 app.use(express.static(path.join(__dirname, 'node_modules')))
 
-// we always want to serve the index.html
+// we always want to serve the index.hbs
 app.get('/', (req, res) => {
     if (process.env.NODE_ENV !== 'production') {
-        res.sendFile(path.join(__dirname, 'assets/index.html'))
+        res.sendFile(path.join(__dirname, 'assets/index.hbs'))
     } else{
-        res.sendFile(path.join(__dirname, 'dist/index.html'))
+        res.sendFile(path.join(__dirname, 'dist/index.hbs'))
     }
 })
 
