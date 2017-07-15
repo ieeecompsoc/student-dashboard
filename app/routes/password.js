@@ -10,15 +10,14 @@ const Student = require('../models/student');
 const nodemailer = require('nodemailer');
 
 
-
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
-    host: 'smtp.mailinator.com',
+    host: process.env.E_HOST,
     port: 465,
     secure: true, // secure:true for port 465, secure:false for port 587
     auth: {
-        user: 'student-dashboard@mailinator.com',
-        pass: ''
+        user: process.env.EMAIL,
+        pass: process.env.E_PASSWORD,
     }
 });
 
@@ -31,7 +30,6 @@ function str(i) {
 let num = (k) => Math.ceil(Math.random() * k);
 function getID() {
     let retval = str(1 + Math.floor(Math.random() * 4)) + num(84916394) + str(3 + Math.floor(Math.random() * 3)) + num(634894) + str(3 + Math.floor(Math.random() * 3));
-    console.log(retval);
     return retval;
 }
 
@@ -53,10 +51,10 @@ router.get('/forgot', function (req, res) {
 
         // setup email data with unicode symbols
         let mailOptions = {
-            from: '"admin" <student-dashboard@mailinator.com>', // sender address
+            from: '"admin" <student-dashboard@rediffmail.com>', // sender address
             to: doc.email, // list of receivers
             subject: 'msit student dashboard password reset', // Subject line
-            html: `http://${process.env.DOMAIN_FOR_MAIL}/api/v1/password/mailPage?enrollment=${enrollment}&reset_token=${reset_token}`,
+            html: {path: `http://localhost:4000/api/v1/password/mailPage?enrollment=${enrollment}&reset_token=${reset_token}`,}
         };
 
         // send mail with defined transport object

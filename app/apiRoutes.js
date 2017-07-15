@@ -18,6 +18,8 @@ router.use(function (req, res, next) {
     next();
 });
 
+router.use('/password', routes.password);
+
 router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
     var token = req.body.token || req.query.token || req.headers['x-access-token'] || null;
     if (token) {
@@ -36,7 +38,6 @@ router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
 router.post('/authenticate', routes.authenticate);
 router.post('/addUser', routes.addUser);
 router.get('/getUsers', routes.getUsers);
-router.use('/password', routes.password);
 
 
 module.exports = router;

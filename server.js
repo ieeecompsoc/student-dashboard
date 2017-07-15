@@ -8,10 +8,13 @@ var path = require('path'),
     dotenv = require('dotenv'),
     mongoose = require('mongoose')
 
-var apiRoutes = require('./app/apiRoutes');
 require('dotenv').config();
 dotenv.load();
 var port = process.env.PORT || 8000;
+
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views/resetPassword"));
+var apiRoutes = require('./app/apiRoutes');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASE_URL, {useMongoClient: true});
@@ -25,10 +28,9 @@ if (process.env.NODE_ENV !== 'production') {
     app.use('/js', express.static(__dirname + '/dist/js'))
 }
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "../../views/resetPassword"));
+
 
 // Setting up express to serve static files
 
@@ -41,14 +43,14 @@ app.use(express.static(path.join(__dirname, 'node_modules')))
 app.get('/', (req, res) => {
     if (process.env.NODE_ENV !== 'production') {
         res.sendFile(path.join(__dirname, 'assets/index.hbs'))
-    } else{
+    } else {
         res.sendFile(path.join(__dirname, 'dist/index.hbs'))
     }
 })
 
 // Routes for the Api
-app.get('/api', function(req, res){
-  res.send('Hello! The Api Server is listening at  http://localhost:' + port + '/api/v1');
+app.get('/api', function (req, res) {
+    res.send('Hello! The Api Server is listening at  http://localhost:' + port + '/api/v1');
 });
 app.use('/api/v1', apiRoutes);
 
