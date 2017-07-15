@@ -27,9 +27,27 @@ class LogIn extends Component {
             data: [],
             passwordType: "password",
             resetPassword: false,
-            noEmail: false
+            noEmail: false,
+            rememberLogin: true
+        }
+    }
+
+    componentWillMount() {
+        const data = localStorage.getItem('data')
+        const rememberLogin = localStorage.getItem('rememberLogin') == 'true'
+
+        console.log(rememberLogin);
+
+        if(data && rememberLogin){
+            this.setState({
+                data: JSON.parse(data),
+                loginStatus: true
+            })
         }
 
+        this.setState({
+            rememberLogin
+        })
     }
 
     resetPassword = (e) => {
@@ -45,6 +63,13 @@ class LogIn extends Component {
       if(this.state.passwordType === "password")
         return <ViewIcon />;
       return <HideIcon />;
+    }
+
+    changeRemember = () => {
+        localStorage.setItem('rememberLogin', !this.state.rememberLogin)
+        this.setState({
+            rememberLogin: !this.state.rememberLogin
+        })
     }
 
     handleRequestClose = () => {
@@ -79,6 +104,8 @@ class LogIn extends Component {
             .then(function (response) {
                 console.log(response.data[0]);
                 thiss.setState({data: response.data[0], loginStatus: true})
+                localStorage.setItem('loginStatus', true)
+                localStorage.setItem('data', JSON.stringify(response.data[0]))
             })
             .catch(function (error) {
                 thiss.setState({ tokenExpired : true, isLoading: false })
@@ -109,6 +136,7 @@ class LogIn extends Component {
                 data: JSON.stringify(payload)
             })
             .then(function (response) {
+                localStorage.setItem('access_token', response.data.token)
                 authSuccess(response.data.token);
             })
             .catch(function (error) {
@@ -148,99 +176,100 @@ class LogIn extends Component {
         } else {
             return (
                 <div>
-                  <MuiThemeProvider>
-                    <div className="login">
-                      {this.state.isLoading && <CircularProgress size={80} thickness={5} color="white" style={{margin: 'auto'}}/>}
-                      {!this.state.isLoading && <div className="form" >
-                        {!this.state.resetPassword && <div>
-                          <div className="form-head">Student Login</div>
-                          <hr className="hr" />
-                          <form onSubmit = { this.authenticate } >
-                            <TextField
-                              floatingLabelText="Enrollment No."
-                              floatingLabelStyle={styles.floatingLabelStyle}
-                              floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                              underlineFocusStyle={styles.underlineFocusStyle}
-                              underlineStyle={styles.underlineStyle}
-                              name="enrollment"
-                              type="text"
-                              className={classnames('text-input')}
-                              onChange={(e) => {this.handleChange(e)}}
+                    <MuiThemeProvider>
+                        <div className="login">
+                            {this.state.isLoading && <CircularProgress size={80} thickness={5} color="white" style={{margin: 'auto'}}/>}
+                            {!this.state.isLoading && <div className="form" >
+                                {!this.state.resetPassword && <div>
+                                    <div className="form-head">Student Login</div>
+                                    <hr className="hr" />
+                                    <form onSubmit = { this.authenticate } >
+                                        <TextField
+                                            floatingLabelText="Enrollment No."
+                                            floatingLabelStyle={styles.floatingLabelStyle}
+                                            floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                                            underlineFocusStyle={styles.underlineFocusStyle}
+                                            underlineStyle={styles.underlineStyle}
+                                            name="enrollment"
+                                            type="text"
+                                            className={classnames('text-input')}
+                                            onChange={(e) => {this.handleChange(e)}}
+                                        />
+                                        <br />
+                                        <div style={{position: 'relative', display: 'inline-block'}}>
+                                            <TextField
+                                                floatingLabelText="Password"
+                                                floatingLabelStyle={styles.floatingLabelStyle}
+                                                floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                                                underlineFocusStyle={styles.underlineFocusStyle}
+                                                underlineStyle={styles.underlineStyle}
+                                                className={classnames('text-input password')}
+                                                type={this.state.passwordType}
+                                                name="password"
+                                                onChange={(e) => {this.handleChange(e)}}
+                                            />
+                                            {this.state.password === "" ? null : <IconButton style={styles.ViewIcon} disableTouchRipple={true} onTouchTap={() => {
+                                                this.setState({passwordType : this.state.passwordType === "password"? "text" : "password"})
+                                            }}>
+                                                {this.checkViewIcon()}
+                                            </IconButton>}
+                                        </div>
+                                        <br />
+                                        <Checkbox
+                                            label="Remember me"
+                                            iconStyle={{fill: 'black'}}
+                                            className={classnames('checkbox')}
+                                            disableTouchRipple={true}
+                                            checked={this.state.rememberLogin}
+                                            onCheck={this.changeRemember.bind(this)}
+                                        />
+                                        <button type = "submit" className="submit">Log In</button>
+                                    </form>
+                                    <div className="forgot-btn" onClick={() => this.setState({resetPassword : true})}>Forgotton password?</div>
+                                </div>}
+                                {
+                                    this.state.resetPassword && <div>
+                                        <div className="form-head">Reset Password</div>
+                                        <hr className="hr" />
+                                        <form onSubmit = { this.resetPassword } >
+                                            <TextField
+                                                floatingLabelText="Email Address"
+                                                floatingLabelStyle={styles.floatingLabelStyle}
+                                                floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                                                underlineFocusStyle={styles.underlineFocusStyle}
+                                                underlineStyle={styles.underlineStyle}
+                                                name="email"
+                                                type="email"
+                                                className={classnames('text-input')}
+                                                onChange={(e) => {this.handleChange(e)}}
+                                            />
+                                            <br />
+                                            <button type = "submit" className="submit">Submit</button>
+                                        </form>
+                                        <div className="forgot-btn back" onClick={() => this.setState({resetPassword : false})}><span className="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Return to Login</div>
+                                    </div>
+                                }
+                            </div>}
+                            <Snackbar
+                                open={this.state.wrongCredentials}
+                                message="Wrong Credentials!! Try Again"
+                                autoHideDuration={4000}
+                                onRequestClose={this.handleRequestClose}
                             />
-                            <br />
-                            <div style={{position: 'relative', display: 'inline-block'}}>
-                                  <TextField
-                                    floatingLabelText="Password"
-                                    floatingLabelStyle={styles.floatingLabelStyle}
-                                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                                    underlineFocusStyle={styles.underlineFocusStyle}
-                                    underlineStyle={styles.underlineStyle}
-                                    className={classnames('text-input password')}
-                                    type={this.state.passwordType}
-                                    name="password"
-                                    onChange={(e) => {this.handleChange(e)}}
-                                  />
-                                  {this.state.password === "" ? null : <IconButton style={styles.ViewIcon} disableTouchRipple={true} onTouchTap={() => {
-                                    this.setState({passwordType : this.state.passwordType === "password"? "text" : "password"})
-                                  }}>
-                                  {this.checkViewIcon()}
-                                </IconButton>}
-                            </div>
-                            <br />
-                            <Checkbox
-                              label="Remember me"
-                              iconStyle={{fill: 'black'}}
-                              className={classnames('checkbox')}
-                              disableTouchRipple={true}
-                              defaultChecked
+                            <Snackbar
+                                open={this.state.tokenExpired}
+                                message="Token Expired!!"
+                                autoHideDuration={4000}
+                                onRequestClose={this.handleRequestClose}
                             />
-                            <button type = "submit" className="submit">Log In</button>
-                          </form>
-                          <div className="forgot-btn" onClick={() => this.setState({resetPassword : true})}>Forgotton password?</div>
-                        </div>}
-                        {
-                          this.state.resetPassword && <div>
-                            <div className="form-head">Reset Password</div>
-                            <hr className="hr" />
-                            <form onSubmit = { this.resetPassword } >
-                              <TextField
-                                floatingLabelText="Email Address"
-                                floatingLabelStyle={styles.floatingLabelStyle}
-                                floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                                underlineFocusStyle={styles.underlineFocusStyle}
-                                underlineStyle={styles.underlineStyle}
-                                name="email"
-                                type="email"
-                                className={classnames('text-input')}
-                                onChange={(e) => {this.handleChange(e)}}
-                              />
-                              <br />
-                              <button type = "submit" className="submit">Submit</button>
-                            </form>
-                            <div className="forgot-btn back" onClick={() => this.setState({resetPassword : false})}><span className="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Return to Login</div>
-                          </div>
-                        }
-                      </div>}
-                      <Snackbar
-                        open={this.state.wrongCredentials}
-                        message="Wrong Credentials!! Try Again"
-                        autoHideDuration={4000}
-                        onRequestClose={this.handleRequestClose}
-                      />
-                      <Snackbar
-                        open={this.state.tokenExpired}
-                        message="Token Expired!!"
-                        autoHideDuration={4000}
-                        onRequestClose={this.handleRequestClose}
-                      />
-                      <Snackbar
-                        open={this.state.noEmail}
-                        message="No Email"
-                        autoHideDuration={4000}
-                        onRequestClose={this.handleRequestClose}
-                      />
-                    </div>
-                  </MuiThemeProvider>
+                            <Snackbar
+                                open={this.state.noEmail}
+                                message="No Email"
+                                autoHideDuration={4000}
+                                onRequestClose={this.handleRequestClose}
+                            />
+                        </div>
+                    </MuiThemeProvider>
                 </div>
             )
         }
