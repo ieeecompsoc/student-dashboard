@@ -10,6 +10,8 @@ import ViewIcon from 'material-ui/svg-icons/action/visibility';
 import HideIcon from 'material-ui/svg-icons/action/visibility-off';
 import classnames from 'classnames';
 import axios from 'axios';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 injectTapEventPlugin();
 
@@ -27,7 +29,8 @@ class LogIn extends Component {
             passwordType: "password",
             resetPassword: false,
             noEnrollment: false,
-            rememberLogin: true
+            rememberLogin: true,
+            emailSent: false
         }
     }
 
@@ -51,10 +54,8 @@ class LogIn extends Component {
 
     resetPassword = (e) => {
       e.preventDefault();
-
+      this.setState({isLoading : true})
       const thiss = this;
-
-      console.log(this.state.enrollment);
 
       if(this.state.enrollment === "")
         this.setState({noEnrollment : true});
@@ -68,10 +69,10 @@ class LogIn extends Component {
                   mode: 'cors'
               })
               .then(function (response) {
-                  console.log(response);
+                  thiss.setState({emailSent : true, isLoading: false})
               })
               .catch(function (error) {
-                  thiss.setState({noEnrollment : true});
+                  thiss.setState({noEnrollment : true, isLoading: false});
               });
         }
     }
@@ -93,7 +94,8 @@ class LogIn extends Component {
       this.setState({
         wrongCredentials: false,
         tokenExpired: false,
-        noEnrollment: false
+        noEnrollment: false,
+        emailSent: false
       })
     }
 
@@ -270,21 +272,35 @@ class LogIn extends Component {
                             <Snackbar
                                 open={this.state.wrongCredentials}
                                 message="Wrong Credentials!! Try Again"
-                                autoHideDuration={4000}
+                                autoHideDuration={5000}
                                 onRequestClose={this.handleRequestClose}
                             />
                             <Snackbar
                                 open={this.state.tokenExpired}
                                 message="Token Expired!!"
-                                autoHideDuration={4000}
+                                autoHideDuration={5000}
                                 onRequestClose={this.handleRequestClose}
                             />
                             <Snackbar
                                 open={this.state.noEnrollment}
                                 message="Enrollment No. not found!"
-                                autoHideDuration={4000}
+                                autoHideDuration={5000}
                                 onRequestClose={this.handleRequestClose}
                             />
+                            <Dialog
+                                title="Reset Password"
+                                actions={<FlatButton
+                                  label="OK"
+                                  primary={true}
+                                  keyboardFocused={true}
+                                  onTouchTap={this.handleRequestClose}
+                                />}
+                                modal={false}
+                                open={this.state.emailSent}
+                                onRequestClose={this.handleRequestClose}
+                            >
+                              Password reset link has been mailed to you. Check your mail for further instructions.
+                            </Dialog>
                         </div>
                     </MuiThemeProvider>
                 </div>
