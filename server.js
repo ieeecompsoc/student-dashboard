@@ -1,4 +1,4 @@
-var path = require('path'),
+const path = require('path'),
     express = require('express'),
     app = express(),
     webpackDevHelper = require('./index.dev.js'),
@@ -36,10 +36,10 @@ app.use(bodyParser.json());
 // Setting up express to serve static files
 
 app.use(express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'dist')))
-app.use(express.static(path.join(__dirname, 'assets')))
-app.use(express.static(path.join(__dirname, 'node_modules')))
-app.use(express.static(path.join(__dirname, 'views')))
+app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
+app.use(express.static(path.join(__dirname, 'views')));
 
 // we always want to serve the index.hbs
 app.get('/', (req, res) => {
@@ -56,5 +56,6 @@ app.get('/api', function (req, res) {
 });
 app.use('/api/v1', apiRoutes);
 
-app.listen(port)
-console.log('Server running at http://localhost:' + port);
+app.listen(port, function () {
+    console.log('Server running at http://localhost:' + port);
+})

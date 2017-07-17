@@ -7,6 +7,7 @@ const routes = {
     authenticate: require('./routes/authenticate'),
     password: require('./routes/password'),
 }
+
 var router = express.Router();
 
 router.use(function (req, res, next) {

@@ -8,6 +8,8 @@ const path = require('path');
 const User = require('../models/user');
 const Student = require('../models/student');
 const nodemailer = require('nodemailer');
+var bcrypt = require('bcrypt');
+var SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR;
 
 
 // create reusable transporter object using the default SMTP transport
@@ -102,20 +104,31 @@ router.post('/reset', function (req, res) {
         return res.status(400).json({success: false, msg: "Invalid request"});
     }
 
-    User.findOneAndUpdate({
-            "enrollment": req.body.enrollment,
-            "reset_token": req.body.reset_token
-        }, {
-            password: password,
-            reset_token: undefined,
-        },
-        function (err, users) {
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+        if (err) {
+            return res.status(400).json({success: false, msg: "Unable to update password"});
+        }
+        bcrypt.hash(password, salt, function (err, hash) {
             if (err) {
-                return res.status(400).json({success: false, msg: "Invalid Credentials."});
+                return res.status(400).json({success: false, msg: "Unable to update password"});
             }
+            password = hash;
+            User.findOneAndUpdate({
+                    "enrollment": req.body.enrollment,
+                    "reset_token": req.body.reset_token
+                }, {
+                    password: password,
+                    reset_token: undefined,
+                },
+                function (err, users) {
+                    if (err) {
+                        return res.status(400).json({success: false, msg: "Invalid Credentials."});
+                    }
 
-            res.status(200).json({success: true, msg: "password reset successful"});
+                    res.status(200).json({success: true, msg: "password reset successful"});
+                });
         });
+    });
 })
 
 
