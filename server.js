@@ -10,7 +10,7 @@ const path = require('path'),
 
 require('dotenv').config();
 dotenv.load();
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 4000;
 
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views/resetPassword"));
