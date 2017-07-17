@@ -10,6 +10,9 @@ export default class Dashboard extends Component {
 
   render() {
     const data = this.props.data;
+    const image = data.profile_pic;
+    const phone = data.phone;
+    const email = data.email
     return(
         <div className="jumbotron">
           <div className="container">
@@ -19,8 +22,8 @@ export default class Dashboard extends Component {
                     <div className="img" style={{paddingLeft: "3%"}}>
                       <img
                         height="230"
-                        src={data.profile_pic}
-                        alt="Jetha Lall"
+                        src={image}
+                        alt="profile_pic"
                         width="230"
                         className="img-rounded"
                        />
@@ -30,7 +33,7 @@ export default class Dashboard extends Component {
                     <div className="img">
                       <img
                         height="110"
-                        src={data.profile_pic}
+                        src={image}
                         alt="Jetha Lall"
                         width="110"
                         className="img-rounded"
@@ -39,8 +42,8 @@ export default class Dashboard extends Component {
                   </Mobile>
                 <div className="body">
                   <div>{data.name}</div>
-                  <div><EmailIcon style={{width: "1.6rem"}}/><div><a href="mailto:jethalal@gmail.com">jethalal@gmail.com</a></div></div>
-                  <div><PhoneIcon style={{width: "1.6rem"}}/><div>+91-{data.phone}</div></div>
+                  <div><EmailIcon style={{width: "1.6rem"}}/><div><a href="mailto:jethalal@gmail.com">{email}</a></div></div>
+                  <div><PhoneIcon style={{width: "1.6rem"}}/><div>+91-{phone}</div></div>
                   <Desktop>
                     <div>Jethalal Champaklal Gada, an electronics shop-owner from Kutch district, Gujarat, and his wife Daya, father Champaklal Jayantilal Gada and son Tipendra (Tappu). He is a fan of Babita Ji</div>
                   </Desktop>

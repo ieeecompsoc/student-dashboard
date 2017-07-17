@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { hashHistory } from 'react-router';
+import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import classnames from 'classnames';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -18,33 +19,89 @@ class Reset extends Component {
       passwordMatch: true,
       passwordEmpty: false,
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      passwordLength: false,
+      resetPasswordSuccess: false
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     //authenticate If token is valid or nth-of-type
     //if(this.props.params.token) { render() }
     //console.log(this.props.params.number);
     //else {hashHistory.push('/');}
+    const payload = {
+      enrollment: this.props.params.enrollment,
+      reset_token: this.props.params.token
+    }
+
+    axios({
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+            url: '/api/v1/password/checkresettoken',
+            mode: 'cors',
+            data: JSON.stringify(payload)
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            hashHistory.push('/')
+        });
+
+  }
+
+  redirect = () => {
+    hashHistory.push('/')
   }
 
   handleRequestClose = () => {
     this.setState({
       passwordMatch: true,
-      passwordEmpty: false
+      passwordEmpty: false,
+      passwordLength: false
     })
   }
 
   changePassword = (e) => {
     e.preventDefault();
 
+    const thiss = this;
+
+    const payload = {
+      enrollment: this.props.params.enrollment,
+      reset_token: this.props.params.token,
+      password: this.state.password
+    }
+
     if(this.state.password === "" || this.state.confirmPassword === "")
       this.setState({passwordEmpty : true})
-    else if(this.state.password  === this.state.confirmPassword)
-      console.log("Password Matched");
-    else
+    else if(this.state.password !== this.state.confirmPassword) {
       this.setState({passwordMatch : false})
+    }
+    else if((this.state.password).length < 8) {
+      this.setState({passwordLength : true})
+    }
+    else {
+      axios({
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+          },
+              url: '/api/v1/password/reset',
+              mode: 'cors',
+              data: JSON.stringify(payload)
+          })
+          .then(function (response) {
+              thiss.setState({resetPasswordSuccess : true});
+          })
+          .catch(function (error) {
+              hashHistory.push('/')
+          });
+    }
+
   }
 
   checkViewIcon = (type) => {
@@ -87,7 +144,7 @@ class Reset extends Component {
           <div className="form" >
               <div className="form-head">Reset Password</div>
               <hr className="hr" />
-              <form onSubmit = { this.changePassword } >
+              {!this.state.resetPasswordSuccess && <form onSubmit = { this.changePassword } >
                 <div style={{position: 'relative', display: 'inline-block'}}>
                       <TextField
                         floatingLabelText="New Password"
@@ -127,7 +184,8 @@ class Reset extends Component {
                 </div>
                 <br />
                 <button type = "submit" className="submit">Submit</button>
-              </form>
+              </form>}
+              {this.state.resetPasswordSuccess && <button onClick = {() => { this.redirect() }} className="submit">GO TO HOMEPAGE</button>}
             </div>
             <Snackbar
               open={!this.state.passwordMatch}
@@ -138,6 +196,18 @@ class Reset extends Component {
             <Snackbar
               open={this.state.passwordEmpty}
               message="Password Empty!"
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose}
+            />
+            <Snackbar
+              open={this.state.passwordLength}
+              message="Password should not be less than 8 characters"
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose}
+            />
+            <Snackbar
+              open={this.state.resetPasswordSuccess}
+              message="Password changed successfully"
               autoHideDuration={4000}
               onRequestClose={this.handleRequestClose}
             />

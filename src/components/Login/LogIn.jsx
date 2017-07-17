@@ -19,7 +19,6 @@ class LogIn extends Component {
         this.state = {
             enrollment: "",
             password: "",
-            email: "",
             wrongCredentials: false,
             tokenExpired: false,
             isLoading: false,
@@ -27,7 +26,7 @@ class LogIn extends Component {
             data: [],
             passwordType: "password",
             resetPassword: false,
-            noEmail: false,
+            noEnrollment: false,
             rememberLogin: true
         }
     }
@@ -52,10 +51,28 @@ class LogIn extends Component {
 
     resetPassword = (e) => {
       e.preventDefault();
-      if(this.state.email === "")
-        this.setState({noEmail : true});
-        else{
-          console.log(this.state.email);
+
+      const thiss = this;
+
+      console.log(this.state.enrollment);
+
+      if(this.state.enrollment === "")
+        this.setState({noEnrollment : true});
+      else{
+          axios({
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+                  url: `/api/v1/password/forgot?enrollment=${this.state.enrollment}`,
+                  mode: 'cors'
+              })
+              .then(function (response) {
+                  console.log(response);
+              })
+              .catch(function (error) {
+                  thiss.setState({noEnrollment : true});
+              });
         }
     }
 
@@ -76,7 +93,7 @@ class LogIn extends Component {
       this.setState({
         wrongCredentials: false,
         tokenExpired: false,
-        noEmail: false
+        noEnrollment: false
       })
     }
 
@@ -104,7 +121,7 @@ class LogIn extends Component {
             .then(function (response) {
                 console.log(response.data[0]);
                 thiss.setState({data: response.data[0], loginStatus: true})
-                localStorage.setItem('loginStatus', true)
+                //localStorage.setItem('loginStatus', true)
                 localStorage.setItem('data', JSON.stringify(response.data[0]))
             })
             .catch(function (error) {
@@ -233,13 +250,13 @@ class LogIn extends Component {
                                         <hr className="hr" />
                                         <form onSubmit = { this.resetPassword } >
                                             <TextField
-                                                floatingLabelText="Email Address"
+                                                floatingLabelText="Enrollment No."
                                                 floatingLabelStyle={styles.floatingLabelStyle}
                                                 floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                                                 underlineFocusStyle={styles.underlineFocusStyle}
                                                 underlineStyle={styles.underlineStyle}
-                                                name="email"
-                                                type="email"
+                                                name="enrollment"
+                                                type="text"
                                                 className={classnames('text-input')}
                                                 onChange={(e) => {this.handleChange(e)}}
                                             />
@@ -263,8 +280,8 @@ class LogIn extends Component {
                                 onRequestClose={this.handleRequestClose}
                             />
                             <Snackbar
-                                open={this.state.noEmail}
-                                message="No Email"
+                                open={this.state.noEnrollment}
+                                message="Enrollment No. not found!"
                                 autoHideDuration={4000}
                                 onRequestClose={this.handleRequestClose}
                             />
