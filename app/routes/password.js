@@ -78,7 +78,7 @@ router.get('/mailPage', function (req, res) {
         return res.status(400).send('invalid request');
 
     let linkToReset = `http://${process.env.DOMAIN}/#/reset/${enrollment}/${reset_token}`;
-    res.render('index', {linkToReset: linkToReset})
+    res.render('index', {linkToReset: linkToReset, domain: process.env.DOMAIN})
 })
 
 router.post('/checkResetToken', function (req, res) {
