@@ -7,6 +7,7 @@ const routes = {
     authenticate: require('./routes/authenticate'),
     addResult: require('./routes/addResult'),
     password: require('./routes/password'),
+    getResults: require('./routes/getResults'),
 }
 
 var router = express.Router();
@@ -29,7 +30,6 @@ router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
         jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
             if (err) req.decoded = false;
             else req.decoded = decoded._doc;
-            console.log('decoded doc: ', decoded._doc);
             next();
         })
     }
@@ -42,6 +42,7 @@ router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
 router.post('/authenticate', routes.authenticate);
 router.post('/addUser', routes.addUser);
 router.get('/getUsers', routes.getUsers);
+router.get('/getResults', routes.getResults)
 
 
 module.exports = router;
