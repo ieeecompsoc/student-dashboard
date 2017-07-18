@@ -15,6 +15,10 @@
             top: 15px;
         }
 
+        .logo img {
+          margin: auto;
+        }
+
         .jumbotron {
             padding: 0;
             margin: 0;
@@ -26,9 +30,14 @@
             font-family: 'Roboto', sans-serif;
             display: inline-block;
             position: relative;
-            top: 5px;
             left: 5px;
             font-size: 105%;
+        }
+
+        @media only screen and (min-width:640px){
+          .logo .title {
+            bottom: 15px;
+          }
         }
 
         .container {
@@ -99,7 +108,7 @@
 
         .footer {
             margin-top: 15%;
-            font-size: 0.8em !important;
+            font-size: 1em !important;
             color: rgba(0, 0, 0, 0.5) !important;
         }
 
@@ -108,8 +117,8 @@
 <body>
 <div class="jumbotron">
     <div class="container">
-        <div class="logo text-center"><img src="http://{{domain}}/resetPassword/src/logo/logo.png" alt="Logo"
-                                           width="10%">
+        <div class="logo text-center"><img src="http://3.bp.blogspot.com/-U6klTqnfq9k/WW3gVTDNQFI/AAAAAAAABQw/lsphawVm5_I1cccfEioW8bZqwDN3jTpJQCLcBGAs/s320/light-160.png" alt="Logo"
+                                           width="60rem">
             <div class="title">STUDENT DASHBOARD</div>
         </div>
         <div class="body">
