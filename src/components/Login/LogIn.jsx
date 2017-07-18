@@ -35,21 +35,34 @@ class LogIn extends Component {
     }
 
     componentWillMount() {
-        const data = localStorage.getItem('data')
+        const token = localStorage.getItem('access_token')
         const rememberLogin = localStorage.getItem('rememberLogin') == 'true'
-
+        const thiss = this;
         console.log(rememberLogin);
 
-        if(data && rememberLogin){
-            this.setState({
-                data: JSON.parse(data),
-                loginStatus: true
-            })
+        if(token && rememberLogin){
+          this.setState({isLoading : true});
+          axios({
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'x-access-token': token
+              },
+                  url: '/api/v1/getUsers',
+                  mode: 'cors'
+              })
+              .then(function (response) {
+                  console.log(response.data[0]);
+                  thiss.setState({data: response.data[0], loginStatus: true})
+              })
+              .catch(function (error) {
+                  thiss.setState({ tokenExpired : true, isLoading: false })
+              });
         }
 
         this.setState({
             rememberLogin
-        })
+        });
     }
 
     resetPassword = (e) => {
@@ -111,6 +124,8 @@ class LogIn extends Component {
 
         const thiss = this;
 
+        localStorage.setItem('access_token', token);
+
         axios({
             method: 'GET',
             headers: {
@@ -123,8 +138,6 @@ class LogIn extends Component {
             .then(function (response) {
                 console.log(response.data[0]);
                 thiss.setState({data: response.data[0], loginStatus: true})
-                //localStorage.setItem('loginStatus', true)
-                localStorage.setItem('data', JSON.stringify(response.data[0]))
             })
             .catch(function (error) {
                 thiss.setState({ tokenExpired : true, isLoading: false })
@@ -155,10 +168,11 @@ class LogIn extends Component {
                 data: JSON.stringify(payload)
             })
             .then(function (response) {
-                localStorage.setItem('access_token', response.data.token)
+
                 authSuccess(response.data.token);
             })
             .catch(function (error) {
+
                 authFailure();
             });
 
