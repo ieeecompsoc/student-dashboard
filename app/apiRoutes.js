@@ -5,6 +5,7 @@ const routes = {
     addUser: require('./routes/addUser'),
     getUsers: require('./routes/getUsers'),
     authenticate: require('./routes/authenticate'),
+    addResult: require('./routes/addResult'),
     password: require('./routes/password'),
 }
 
@@ -20,6 +21,7 @@ router.use(function (req, res, next) {
 });
 
 router.use('/password', routes.password);
+router.use('/addResult', routes.addResult);
 
 router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
     var token = req.body.token || req.query.token || req.headers['x-access-token'] || null;
@@ -27,6 +29,7 @@ router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
         jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
             if (err) req.decoded = false;
             else req.decoded = decoded._doc;
+            console.log('decoded doc: ', decoded._doc);
             next();
         })
     }
