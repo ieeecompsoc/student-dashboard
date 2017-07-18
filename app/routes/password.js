@@ -91,7 +91,10 @@ router.post('/checkResetToken', function (req, res) {
         "enrollment": req.body.enrollment,
         "reset_token": req.body.reset_token,
     }, function (err, doc) {
-        if (err || !doc) {
+        if (err) {
+            return res.status(400).json({success: false, msg: "Some error occurred."});
+        }
+        if (!doc) {
             return res.status(400).json({success: false, msg: "Invalid Credentials."});
         }
         res.status(200).json({success: true, msg: "valid token"});

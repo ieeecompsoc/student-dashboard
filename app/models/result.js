@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 var result = new Schema({
     student_id: {
-        type: Schema.types.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true
     },
     semester: {
@@ -12,10 +12,9 @@ var result = new Schema({
     },
     created_at: {
         type: Date,
-        required: true
     },
     subjects: {
-        type: Schema.types.Mixed,
+        type: Schema.Types.Mixed,
         required: true
     }
 
