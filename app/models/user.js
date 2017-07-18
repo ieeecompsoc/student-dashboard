@@ -40,20 +40,32 @@ User.pre('save', function (next) {
         user.created_at = now;
     }
     if (!user.isModified('password')) return next();
-    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+    hashPassword(user.password, function (err, hash) {
         if (err) return next(err);
-        bcrypt.hash(user.password, salt, function (err, hash) {
-            if (err) return next(err);
-            user.password = hash;
-            next();
-        });
+        user.password = hash;
+        next();
     });
+});
+
+User.pre('findOneAndUpdate', function (next) {
+    this.findOneAndUpdate({}, {$set: {updated_at: new Date()}});
+    next();
 });
 
 User.methods.comparePassword = function (candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
+    });
+};
+
+User.statics.hashPassword = function (password, cb) {
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+        if (err) return cb(err);
+        bcrypt.hash(password, salt, function (err, hash) {
+            if (err) return cb(err);
+            cb(null, hash);
+        });
     });
 };
 
