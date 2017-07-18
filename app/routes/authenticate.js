@@ -13,11 +13,12 @@ var authenticate = function (req, res) {
                     if (err) return res.status(400).json({"success": false, msg: "Authentication failed"});
                     else {
                         if (!isMatch) return res.status(400).json({"success": false, msg: "Authentication failed"});
-                        Student.findOne({"enrollment": req.body.enrollment}, function (err, student) {
+                        Student.findOne({"enrollment": req.body.enrollment}, "enrollment", function (err, student) {
                             if (err) return res.status(500).json({"success": false, msg: "Something Crashed"});
                             else {
                                 if (!student) return res.status(400).json({"success": false, msg: "Student not found"});
                                 else {
+                                    console.log(student);
                                     var token = jwt.sign(student, process.env.TOKEN_KEY, {
                                         expiresIn: 60 * 60 * 24 * 7
                                     });
