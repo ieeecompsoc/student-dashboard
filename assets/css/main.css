@@ -4,6 +4,63 @@ body {
 	box-sizing: border-box;
 }
 
+.jumbotron {
+	height: 90%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+.report-select {
+	width: 50% !important;
+	margin-top: 6%;
+	margin-bottom: 6% !important;
+	margin-left: 25% !important;
+	background: #212121 !important;
+	border-radius: 8px;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+							0 10px 10px rgba(0,0,0,0.22);
+}
+
+@media only screen and (max-width:767px) {
+	.report-select {
+		margin-bottom: 10% !important;
+	}
+}
+
+.report-select * {
+	color: white !important;
+	font-family: 'Source Sans Pro' !important;
+	letter-spacing: 1px;
+	margin-left: 2px;
+}
+
+.report-body {
+	font-family: "Source Sans Pro" !important;
+}
+
+.report-header > * {
+	color: white !important;
+	font-family: 'Roboto Condensed' !important;
+	font-size: 1.1em !important;
+	letter-spacing: 1px;
+}
+
+.table-row > * {
+	font-size: 0.9em !important;
+}
+
+.container.report {
+	width: 80% !important;
+	padding: 0 !important;
+}
+
+@media only screen and (max-width:767px){
+	.container.report {
+		width: 100% !important;
+	}
+}
+
 .forgot-btn.back {
 	text-decoration: none;
 }

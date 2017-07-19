@@ -30,7 +30,8 @@ class LogIn extends Component {
             resetPassword: false,
             noEnrollment: false,
             rememberLogin: true,
-            emailSent: false
+            emailSent: false,
+            token: ""
         }
     }
 
@@ -53,7 +54,7 @@ class LogIn extends Component {
               })
               .then(function (response) {
                   console.log(response.data[0]);
-                  thiss.setState({data: response.data[0], loginStatus: true})
+                  thiss.setState({data: response.data[0], loginStatus: true, token: token})
               })
               .catch(function (error) {
                   thiss.setState({ tokenExpired : true, isLoading: false })
@@ -82,7 +83,7 @@ class LogIn extends Component {
                   mode: 'cors'
               })
               .then(function (response) {
-                  thiss.setState({emailSent : true, isLoading: false})
+                  thiss.setState({emailSent : true, isLoading: false, resetPassword: false})
               })
               .catch(function (error) {
                   thiss.setState({noEnrollment : true, isLoading: false});
@@ -137,7 +138,7 @@ class LogIn extends Component {
             })
             .then(function (response) {
                 console.log(response.data[0]);
-                thiss.setState({data: response.data[0], loginStatus: true})
+                thiss.setState({data: response.data[0], loginStatus: true, token: token})
             })
             .catch(function (error) {
                 thiss.setState({ tokenExpired : true, isLoading: false })
@@ -205,7 +206,7 @@ class LogIn extends Component {
       };
 
         if (this.state.loginStatus) {
-            return (this.props.children && React.cloneElement(this.props.children, {data: this.state.data}))
+            return (this.props.children && React.cloneElement(this.props.children, {data: this.state.data, token: this.state.token}))
         } else {
             return (
                 <div>

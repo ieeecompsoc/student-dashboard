@@ -8,6 +8,15 @@ const Mobile = ({ children }) => <Responsive maxWidth={768} children={children} 
 
 export default class Dashboard extends Component {
 
+  constructor(props) {
+    super(props);
+
+  }
+
+  componentDidMount() {
+
+  }
+
   render() {
     const data = this.props.data;
     const image = data.profile_pic;
@@ -42,7 +51,7 @@ export default class Dashboard extends Component {
                   </Mobile>
                 <div className="body">
                   <div>{data.name}</div>
-                  <div><EmailIcon style={{width: "1.6rem"}}/><div><a href="mailto:jethalal@gmail.com">{email}</a></div></div>
+                  <div><EmailIcon style={{width: "1.6rem"}}/><div><a href={`mailto:${email}`}>{email}</a></div></div>
                   <div><PhoneIcon style={{width: "1.6rem"}}/><div>+91-{phone}</div></div>
                   <Desktop>
                     <div>Jethalal Champaklal Gada, an electronics shop-owner from Kutch district, Gujarat, and his wife Daya, father Champaklal Jayantilal Gada and son Tipendra (Tappu). He is a fan of Babita Ji</div>

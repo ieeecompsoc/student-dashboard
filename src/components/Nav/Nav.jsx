@@ -10,6 +10,7 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import Badge from 'material-ui/Badge';
 import Drawer from '../Drawer/Drawer.jsx';
+import { hashHistory } from "react-router"
 
 const Desktop = ({ children }) => <Responsive minWidth={768} children={children} />;
 const Mobile = ({ children }) => <Responsive maxWidth={767} children={children} />;
@@ -26,7 +27,7 @@ export default class Nav extends Component {
 
   handleToggle = () => this.setState({open: !this.state.open});
 
-  handleClose = () => this.setState({open: false});
+  handleClose = () => {this.setState({open: false}); hashHistory.push('/report')};
 
   checkNotification = () => {
     if(this.state.notification) {

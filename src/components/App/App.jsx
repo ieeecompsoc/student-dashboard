@@ -7,6 +7,7 @@ import NavBar from '../Nav/Nav.jsx';
 
 class App extends Component {
 
+
   render() {
 
     return (
@@ -15,9 +16,7 @@ class App extends Component {
             <NavBar />
         </MuiThemeProvider>
         <MuiThemeProvider>
-          {this.props.children && React.cloneElement(this.props.children, {
-            data: this.props.data
-          })}
+          {this.props.children && React.cloneElement(this.props.children, {...this.props})}
         </MuiThemeProvider>
       </div>
     );
