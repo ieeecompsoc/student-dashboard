@@ -34,6 +34,10 @@ var Student = new Schema({
         type: String,
         required: false
     },
+    mother_name: {
+        type: String,
+        required: false
+    },
     created_at: {
         type: Date
     },
