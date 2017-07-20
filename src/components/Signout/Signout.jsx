@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { hashHistory } from 'react-router';
 
 class Profile extends Component {
-  render() {
-    return <h1>Signout :)</h1>
+
+  componentWillMount() {
+    localStorage.removeItem('access_token');
+    hashHistory.push('/');
+    location.reload();
   }
 }
 
