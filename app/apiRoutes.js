@@ -8,6 +8,7 @@ const routes = {
     addResult: require('./routes/addResult'),
     password: require('./routes/password'),
     getResults: require('./routes/getResults'),
+    editInfo: require('./routes/editInfo'),
 }
 
 var router = express.Router();
@@ -42,7 +43,8 @@ router.use(/\/((?!(addUser)|(authenticate)).)*/, function (req, res, next) {
 router.post('/authenticate', routes.authenticate);
 router.post('/addUser', routes.addUser);
 router.get('/getUsers', routes.getUsers);
-router.get('/getResults', routes.getResults)
+router.get('/getResults', routes.getResults);
+router.post('/editInfo', routes.editInfo);
 
 
 module.exports = router;
