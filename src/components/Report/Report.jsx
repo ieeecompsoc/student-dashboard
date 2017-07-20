@@ -56,9 +56,10 @@ class Report extends Component{
     axios({
         method: 'GET',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'x-access-token': this.props.token
         },
-            url: `/api/v1/getResults?token=${this.props.token}`,
+            url: `/api/v1/getResults`,
             mode: 'cors'
         })
         .then(function (response) {

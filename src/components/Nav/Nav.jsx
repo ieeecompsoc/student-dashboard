@@ -27,7 +27,11 @@ export default class Nav extends Component {
 
   handleToggle = () => this.setState({open: !this.state.open});
 
-  handleClose = () => {this.setState({open: false}); hashHistory.push('/report')};
+  handleClose = (e) => {
+    this.setState({open: false});
+    if(e)
+      hashHistory.push(e);
+  };
 
   checkNotification = () => {
     if(this.state.notification) {

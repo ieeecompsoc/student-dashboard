@@ -4,6 +4,39 @@ body {
 	box-sizing: border-box;
 }
 
+/*.menu-body {
+	margin: auto;
+}*/
+
+.menu-body {
+	margin-top: 3%;
+}
+
+.menu-icon {
+	padding-top: 10%;
+}
+
+.menu-icon svg {
+	width: 45% !important;
+}
+
+.menu-item {
+	height: 25%;
+	background: #00BCD4;
+	text-align: center;
+	box-sizing: border-box;
+	color: #212121 !important;
+  font-family: 'Source Sans Pro', sans-serif !important;
+  font-size: 1.5em !important;
+  border-bottom: 1px solid #00838F !important;
+  font-weight: 600 !important;
+	cursor: pointer;
+}
+
+.ripple > div > div{
+	transform: translate(0px, 0px) !important;
+}
+
 .jumbotron {
 	height: 90%;
 	margin: 0;
@@ -200,28 +233,6 @@ hr.hr:before {
   flex: 4;
   margin-left: 5%;
   border-left: 1px solid #EEEEEE;
-}
-
-.drawerFooter {
-  margin : 0 !important;
-  padding: 0 !important;
-  text-align: center;
-}
-
-.menuItem{
-  color: #212121 !important;
-  background: #00BCD4 !important;
-  font-family: 'Source Sans Pro', sans-serif !important;
-  font-size: 1.3em !important;
-  border-bottom: 1px solid #00838F !important;
-  transition: 0.35s all;
-  font-weight: 600 !important;
-  height: 30px;
-}
-
-.menuItem:hove {
-  background: #B388FF !important;
-  color: #00BCD4 !important;
 }
 
 .badges {
