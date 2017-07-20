@@ -1,69 +1,35 @@
 import React, {Component} from 'react';
-import Responsive from 'react-responsive';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
 import PhoneIcon from 'material-ui/svg-icons/communication/phone';
-
-const Desktop = ({ children }) => <Responsive minWidth={768} children={children} />;
-const Mobile = ({ children }) => <Responsive maxWidth={768} children={children} />;
+import TouchRipple from 'material-ui/internal/TouchRipple';
 
 export default class Dashboard extends Component {
-
-  constructor(props) {
-    super(props);
-
-  }
-
-  componentDidMount() {
-
-  }
 
   render() {
     const data = this.props.data;
     const image = data.profile_pic;
     const phone = data.phone;
-    const email = data.email
+    const email = data.email;
+    const name = data.name;
+    const course = data.course;
     return(
-        <div className="jumbotron">
-          <div className="container">
-            <div className="panel panel-default">
-              <div className="panel-body jumbo">
-                  <Desktop>
-                    <div className="img" style={{paddingLeft: "3%"}}>
-                      <img
-                        height="230"
-                        src={image}
-                        alt="profile_pic"
-                        width="230"
-                        className="img-rounded"
-                       />
-                    </div>
-                  </Desktop>
-                  <Mobile>
-                    <div className="img">
-                      <img
-                        height="110"
-                        src={image}
-                        alt="Jetha Lall"
-                        width="110"
-                        className="img-rounded"
-                       />
-                   </div>
-                  </Mobile>
-                <div className="body">
-                  <div>{data.name}</div>
-                  <div><EmailIcon style={{width: "1.6rem"}}/><div><a href={`mailto:${email}`}>{email}</a></div></div>
-                  <div><PhoneIcon style={{width: "1.6rem"}}/><div>+91-{phone}</div></div>
-                  <Desktop>
-                    <div>Jethalal Champaklal Gada, an electronics shop-owner from Kutch district, Gujarat, and his wife Daya, father Champaklal Jayantilal Gada and son Tipendra (Tappu). He is a fan of Babita Ji</div>
-                  </Desktop>
-                </div>
-              </div>
-              <Mobile>
-                <div className="panel-footer">Jethalal Champaklal Gada, an electronics shop-owner from Kutch district, Gujarat, and his wife Daya, father Champaklal Jayantilal Gada and son Tipendra (Tappu). He is a fan of Babita Ji</div>
-              </Mobile>
+      <div className="jumbotron">
+          <div className="profile-card">
+            <TouchRipple>
+            <div className="main">
+                <img src={image} alt="profile_pic" width="130" height="130"/>
+                <div className="name">{name}</div>
+                <div className="course">{course}</div>
             </div>
+            <div className="body">
+              <ul>
+                <li><EmailIcon style={{width: "1.6rem"}}/><span className="key">Email : </span><span className="value">{email}</span></li>
+                <li><PhoneIcon style={{width: "1.6rem"}}/><span className="key">Phone : </span><span className="value">{phone}</span></li>
+              </ul>
+            </div>
+            </TouchRipple>
           </div>
-        </div>
+      </div>
     )
   }
 }

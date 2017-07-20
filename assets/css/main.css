@@ -4,9 +4,93 @@ body {
 	box-sizing: border-box;
 }
 
-/*.menu-body {
+.profile-card > div {
+	transform: translate(0px, 0px) !important;
+}
+
+.profile-card .key, .profile-card .value {
+	position: relative;
+	bottom: 7px;
+	left: 2px;
+}
+
+.profile-card .value {
+	font-size: 1.1em;
+	font-family: "Dosis";
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.profile-card .body .key {
+	font-size: 1em;
+	font-family: 'Source Sans Pro';
+}
+
+.profile-card .body li {
+	margin-top: 2%;
+}
+
+.profile-card .body ul {
+	list-style: none;
+	padding: 0;
+}
+
+.profile-card .body {
+	background: white;
+	border: 1px solid #DFE1E5;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+.profile-card .course {
+	font-family: "Dosis";
+	font-size: 1.2em;
+	letter-spacing: 1px;
+	color: #EEE;
+	margin-top: -1%;
+	text-shadow: 0 2px 1px rgba(0,0,0,0.3), 0 5px 9px rgba(0,0,0,0.1), 0 12px 18px rgba(0,0,0,0.01);
+}
+
+.profile-card .name {
+	font-family: "Source Sans Pro";
+	font-size: 2.5em;
+	margin-top: 4%;
+	text-shadow: 0 4px 3px rgba(0,0,0,0.6), 0 8px 13px rgba(0,0,0,0.3), 0 18px 23px rgba(0,0,0,0.2);
+}
+
+.profile-card img {
+	border-radius: 50%;
+	border: 1px solid #fff;
+  box-shadow: 0 4px 3px rgba(0,0,0,0.6), 0 8px 13px rgba(0,0,0,0.3), 0 18px 23px rgba(0,0,0,0.2);
+}
+
+.profile-card .main {
+	background: rgb(48, 51, 97);
+  background: -webkit-linear-gradient(#00bcd4,rgb(48, 51, 97));
+  background: -o-linear-gradient(#00bcd4,rgb(48, 51, 97));
+  background: -moz-linear-gradient(#00bcd4,rgb(48, 51, 97));
+  background: linear-gradient(#00bcd4,rgb(48, 51, 97));
+	padding: 10% 0;
+	color: white;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+.profile-card {
+	width: 80%;
 	margin: auto;
-}*/
+	max-width: 400px;
+	text-align: center;
+	border-radius: 15px;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25),
+							0 10px 10px rgba(0,0,0,0.22);
+}
+
+@media only screen and (min-width:768px) {
+	.profile-card {
+		width: 40%;
+	}
+}
 
 .menu-body {
 	margin-top: 3%;
@@ -190,49 +274,6 @@ hr.hr:before {
 	border-top-right-radius: 8px;
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25),
 							0 10px 10px rgba(0,0,0,0.22);
-}
-
-.panel-body .body div:nth-of-type(4) {
-  color: #6a737d;
-  margin-top: 3%;
-}
-
-.panel-body .body div:nth-of-type(2), .panel-body .body div:nth-of-type(3) {
-  display: flex;
-  margin-top: 0.6em;
-}
-
-.panel-body .body div:nth-of-type(2) div, .panel-body .body div:nth-of-type(3) div {
-  font-size: 0.9em;
-  font-family: Roboto;
-  margin-top: 2.5px;
-  margin-left: 0.5em;
-}
-.panel-body .body > div:nth-of-type(1) {
-  font-size: 1.8em;
-  font-weight: 500;
-  font-family: Roboto;
-}
-
-.panel-body {
-  display: flex !important;
-  flex-wrap: wrap;
-  justify-content: space-around !important;
-}
-
-.panel-body .img {
-  flex: 1;
-}
-
-.panel-body .body > * {
-  margin-left: 5%;
-}
-
-.panel-body .body {
-  width: 60%;
-  flex: 4;
-  margin-left: 5%;
-  border-left: 1px solid #EEEEEE;
 }
 
 .badges {
