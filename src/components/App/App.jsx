@@ -7,16 +7,27 @@ import NavBar from '../Nav/Nav.jsx';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentComponent: "Dashboard"
+    }
+  }
+
+  changeComponent = (component) => {
+    console.log(component);
+    this.setState({currentComponent : component});
+  }
 
   render() {
 
     return (
       <div>
         <MuiThemeProvider >
-            <NavBar />
+            <NavBar component={this.state.currentComponent}/>
         </MuiThemeProvider>
         <MuiThemeProvider>
-          {this.props.children && React.cloneElement(this.props.children, {...this.props})}
+          {this.props.children && React.cloneElement(this.props.children, {...this.props, changeComponent: this.changeComponent})}
         </MuiThemeProvider>
       </div>
     );

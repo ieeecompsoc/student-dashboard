@@ -4,6 +4,9 @@ import PhoneIcon from 'material-ui/svg-icons/communication/phone';
 import TouchRipple from 'material-ui/internal/TouchRipple';
 
 export default class Dashboard extends Component {
+  componentWillMount() {
+    this.props.changeComponent("Dashboard")
+  }
 
   render() {
     const data = this.props.data;

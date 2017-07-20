@@ -170,6 +170,7 @@ export default class Nav extends Component {
     return(
       <AppBar
         iconElementLeft={leftButton}
+        title={this.props.component}
       >
         {this.checkNotification()}
         {this.checkMessage()}

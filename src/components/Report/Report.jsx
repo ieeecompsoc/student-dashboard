@@ -25,6 +25,10 @@ class Report extends Component{
     }
   }
 
+  componentWillMount() {
+    this.props.changeComponent("Reports")
+  }
+
   findReport = (currentSemester) => {
     this.state.report.forEach(object => {
       if (object.semester == currentSemester)
