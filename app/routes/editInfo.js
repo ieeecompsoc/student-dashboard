@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const Student = require('./../models/student');
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
