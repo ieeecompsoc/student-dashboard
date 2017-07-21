@@ -26,7 +26,7 @@ let editInfo = function (req, res) {
                 from: `"admin" <${process.env.EMAIL}>`, // sender address
                 to: process.env.HEAD_EMAIL, // list of receivers
                 subject: 'msit student dashboard student\'s info change request', // Subject line
-                html: `<h4>enrollment: ${ern}</h4><h2>changes: ${req.body.changes}</h2>`
+                html: `<h4>enrollment: ${ern}</h4><h2>changes: ${JSON.stringify(req.body.changes)}</h2>`
             };
 
             // send mail with defined transport object
