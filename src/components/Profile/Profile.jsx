@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import UpdateIcon from 'material-ui/svg-icons/editor/mode-edit';
 import RaisedButton from 'material-ui/RaisedButton';
-import _ from 'lodash';
 import axios from 'axios';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,6 +11,15 @@ class Profile extends Component {
 
   constructor(props) {
     super(props);
+
+    Object.prototype.isEmpty = () => {
+       for(let key in this) {
+           if(this.hasOwnProperty(key))
+               return false;
+       }
+       return true;
+    }
+
     this.state = {
       phone: this.props.data.phone,
       email: this.props.data.email,
@@ -68,7 +76,7 @@ class Profile extends Component {
         changes[key] = this.state[key];
       }
     }
-    if(!_.isEmpty(changes))
+    if(!changes.isEmpty())
     {
       this.submitChanges(changes);
     }
