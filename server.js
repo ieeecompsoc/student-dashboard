@@ -1,7 +1,6 @@
 const path = require('path'),
     express = require('express'),
     app = express(),
-    logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     dotenv = require('dotenv'),
@@ -21,6 +20,7 @@ mongoose.connect(process.env.DATABASE_URL, {useMongoClient: true});
 
 if (process.env.NODE_ENV !== 'production') {
     const webpackDevHelper = require('./index.dev.js')
+    const logger = require('morgan')
     console.log('DEVOLOPMENT ENVIRONMENT: Turning on WebPack Middleware...')
     app.use(logger('dev'));
     webpackDevHelper.useWebpackMiddleware(app)
