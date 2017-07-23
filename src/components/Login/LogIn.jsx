@@ -39,7 +39,6 @@ class LogIn extends Component {
         const token = localStorage.getItem('access_token')
         const rememberLogin = localStorage.getItem('rememberLogin') == 'true'
         const thiss = this;
-        console.log(rememberLogin);
 
         if(token && rememberLogin){
           this.setState({isLoading : true});
@@ -53,7 +52,6 @@ class LogIn extends Component {
                   mode: 'cors'
               })
               .then(function (response) {
-                  console.log(response.data[0]);
                   thiss.setState({data: response.data[0], loginStatus: true, token: token})
               })
               .catch(function (error) {
@@ -137,7 +135,6 @@ class LogIn extends Component {
                 mode: 'cors'
             })
             .then(function (response) {
-                console.log(response.data[0]);
                 thiss.setState({data: response.data[0], loginStatus: true, token: token})
             })
             .catch(function (error) {
@@ -148,8 +145,6 @@ class LogIn extends Component {
     authenticate = (e) => {
         e.preventDefault();
         this.setState({isLoading: true});
-
-        console.log("authenticating")
 
         const authSuccess = this.authSuccess;
         const authFailure = this.authFailure;

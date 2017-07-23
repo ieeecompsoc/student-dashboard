@@ -56,7 +56,6 @@ class Report extends Component{
 
   componentDidMount() {
     const thiss = this;
-    console.log(this.props.token);
     axios({
         method: 'GET',
         headers: {
@@ -71,7 +70,7 @@ class Report extends Component{
             thiss.findReport((thiss.props.data.semester) - 1);
         })
         .catch(function (error) {
-            console.log(error);
+            console.log("error");
         });
 
   }

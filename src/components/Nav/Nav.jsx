@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import Responsive from 'react-responsive';
 import classnames from 'classnames';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
-import MessageIcon from 'material-ui/svg-icons/communication/message';
 import ExploreIcon from 'material-ui/svg-icons/action/explore';
+import ExitIcon from 'material-ui/svg-icons/action/power-settings-new';
 import IconButton from 'material-ui/IconButton';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
-import Badge from 'material-ui/Badge';
 import Drawer from '../Drawer/Drawer.jsx';
 import { hashHistory } from "react-router"
 
@@ -19,9 +17,7 @@ export default class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
-      notification: true,
-      message: false
+      open: false
     };
   }
 
@@ -32,110 +28,6 @@ export default class Nav extends Component {
     if(e)
       hashHistory.push(e);
   };
-
-  checkNotification = () => {
-    if(this.state.notification) {
-      return(
-        <div>
-          <Desktop>
-            <Badge
-            badgeContent={3}
-            secondary={true}
-            className={classnames('badges','badgeD','notification')}
-            >
-              <FlatButton
-                href="#random"
-                label="Notification"
-                className={classnames('button')}
-                icon={<NotificationsIcon />}
-              />
-            </Badge>
-          </Desktop>
-          <Mobile>
-            <Badge
-              badgeContent={3}
-              secondary={true}
-              className={classnames('badges','mobileIcon','notificationM')}
-              >
-                <IconButton>
-                  <NotificationsIcon />
-                </IconButton>
-            </Badge>
-          </Mobile>
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <Desktop>
-            <FlatButton
-              href="#random"
-              label="Notification"
-              className={classnames('button','flatD')}
-              icon={<NotificationsIcon />}
-            />
-          </Desktop>
-          <Mobile>
-            <IconButton className={classnames('button','flatM','mobileIcon')}>
-              <NotificationsIcon />
-            </IconButton>
-          </Mobile>
-        </div>
-      )
-    }
-  }
-
-  checkMessage() {
-    if(this.state.message) {
-      return(
-        <div>
-          <Desktop>
-            <Badge
-            badgeContent={3}
-            secondary={true}
-            className={classnames('badges','badgeD','message')}
-            >
-              <FlatButton
-                href="#random"
-                label="Message"
-                className={classnames('button')}
-                icon={<MessageIcon />}
-              />
-            </Badge>
-          </Desktop>
-          <Mobile>
-            <Badge
-              badgeContent={3}
-              secondary={true}
-              className={classnames('badges','mobileIcon')}
-              >
-                <IconButton>
-                  <MessageIcon />
-                </IconButton>
-            </Badge>
-          </Mobile>
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <Desktop>
-            <FlatButton
-              href="#random"
-              label="Message"
-              className={classnames('button','flatD')}
-              icon={<MessageIcon />}
-            />
-          </Desktop>
-          <Mobile>
-            <IconButton className={classnames('button','flatM','mobileIcon')}>
-              <MessageIcon />
-            </IconButton>
-          </Mobile>
-        </div>
-      )
-    }
-  }
 
   explore() {
     return (
@@ -157,6 +49,32 @@ export default class Nav extends Component {
     )
   }
 
+  reload = () => {
+    localStorage.removeItem('access_token');
+    hashHistory.push('/');
+    location.reload();
+  }
+
+  signOut() {
+    return (
+      <div>
+        <Desktop>
+          <FlatButton
+            onTouchTap={() => {this.reload()}}
+            label="Sign Out"
+            className={classnames('button','flatD')}
+            icon={<ExitIcon />}
+          />
+        </Desktop>
+        <Mobile>
+          <IconButton className={classnames('button','flatM','mobileIcon')} onTouchTap={() => {this.reload()}}>
+            <ExitIcon />
+          </IconButton>
+        </Mobile>
+      </div>
+    )
+  }
+
   render() {
     const leftButton = (
       <div>
@@ -172,9 +90,8 @@ export default class Nav extends Component {
         iconElementLeft={leftButton}
         title={this.props.component}
       >
-        {this.checkNotification()}
-        {this.checkMessage()}
         {this.explore()}
+        {this.signOut()}
       </AppBar>
     )
   }

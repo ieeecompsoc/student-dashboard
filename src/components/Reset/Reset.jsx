@@ -26,10 +26,6 @@ class Reset extends Component {
   }
 
   componentWillMount() {
-    //authenticate If token is valid or nth-of-type
-    //if(this.props.params.token) { render() }
-    //console.log(this.props.params.number);
-    //else {hashHistory.push('/');}
     const payload = {
       enrollment: this.props.params.enrollment,
       reset_token: this.props.params.token
@@ -45,7 +41,7 @@ class Reset extends Component {
             data: JSON.stringify(payload)
         })
         .then(function (response) {
-            console.log(response);
+            console.log("response");
         })
         .catch(function (error) {
             hashHistory.push('/')

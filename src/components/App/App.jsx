@@ -15,7 +15,6 @@ class App extends Component {
   }
 
   changeComponent = (component) => {
-    console.log(component);
     this.setState({currentComponent : component});
   }
 
