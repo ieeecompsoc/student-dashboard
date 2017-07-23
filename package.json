@@ -1,15 +1,10 @@
 {
-  "name": "react-express-boilerplate",
-  "description": "A React Express Webpack Boilerplate to get started to development.",
+  "name": "student_dashboard",
+  "description": "MSIT Student Dashboard",
   "version": "0.0.1",
   "main": "server.js",
-  "author": "Hiten Sharma",
+  "author": "Student Dashboard Team",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/htadg/react-express-boilerplate"
-  },
-  "homepage": "https://github.com/htadg/react-express-boilerplate",
   "keywords": [
     "react",
     "webpack",
@@ -22,18 +17,10 @@
   ],
   "scripts": {
     "start:dev": "nodemon server.js",
-    "start": "better-npm-run build-prod && better-npm-run start-prod",
+    "start": "node server.js",
     "build:prod": "better-npm-run build-prod"
   },
   "betterScripts": {
-    "start-prod": {
-      "command": "node server.js",
-      "env": {
-        "NODE_PATH": "./src",
-        "NODE_ENV": "production",
-        "PORT": 3000
-      }
-    },
     "build-prod": {
       "command": "webpack --verbose --colors --display-error-details --config webpack.config.js -p && cp -r assets/* dist/",
       "env": {
