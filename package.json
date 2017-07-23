@@ -2,7 +2,7 @@
   "name": "react-express-boilerplate",
   "description": "A React Express Webpack Boilerplate to get started to development.",
   "version": "0.0.1",
-  "main": "./server.js",
+  "main": "server.js",
   "author": "Hiten Sharma",
   "license": "MIT",
   "repository": {
@@ -21,13 +21,13 @@
     "babel"
   ],
   "scripts": {
-    "start": "nodemon server.js",
-    "start:prod": "better-npm-run start-prod",
+    "start:dev": "nodemon server.js",
+    "start": "better-npm-run build-prod && better-npm-run start-prod",
     "build:prod": "better-npm-run build-prod"
   },
   "betterScripts": {
     "start-prod": {
-      "command": "webpack -p && node server.js",
+      "command": "node server.js",
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
