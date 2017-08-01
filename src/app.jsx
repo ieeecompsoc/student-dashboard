@@ -9,7 +9,7 @@ import Profile from './components/Profile/Profile.jsx';
 import Signout from './components/Signout/Signout.jsx';
 import Reset from './components/Reset/Reset.jsx';
 import NotFound from './components/404/404.jsx';
-import serviceWorker from './registerServiceWorker';
+// import serviceWorker from './registerServiceWorker';
 
 
 ReactDOM.render(
@@ -27,4 +27,4 @@ ReactDOM.render(
   </Router>
   , document.getElementById('root'));
 
-serviceWorker();
+// serviceWorker();
