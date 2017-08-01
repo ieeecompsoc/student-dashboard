@@ -210,7 +210,7 @@ class LogIn extends Component {
                             {this.state.isLoading && <CircularProgress size={80} thickness={5} color="white" style={{margin: 'auto'}}/>}
                             {!this.state.isLoading && <div className="form" >
                                 {!this.state.resetPassword && <div>
-                                    <div className="form-head">Student Login</div>
+                                    <div className="form-head">Student Logn</div>
                                     <hr className="hr" />
                                     <form onSubmit = { this.authenticate } >
                                         <TextField
