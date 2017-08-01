@@ -22,7 +22,7 @@
   },
   "betterScripts": {
     "build-prod": {
-      "command": "webpack --colors --display-error-details --config webpack.config.js -p && sw-precache --config=sw-precache-config.js && cp -r assets/* dist/",
+      "command": "webpack --colors --display-error-details --config webpack.config.js -p && cp -r assets/* dist/",
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
