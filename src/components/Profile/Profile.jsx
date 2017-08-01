@@ -6,19 +6,12 @@ import axios from 'axios';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
+import { isEmpty } from 'lodash';
 
 class Profile extends Component {
 
   constructor(props) {
     super(props);
-
-    Object.prototype.isEmpty = () => {
-       for(let key in this) {
-           if(this.hasOwnProperty(key))
-               return false;
-       }
-       return true;
-    }
 
     this.state = {
       phone: this.props.data.phone,
@@ -76,7 +69,7 @@ class Profile extends Component {
         changes[key] = this.state[key];
       }
     }
-    if(!changes.isEmpty())
+    if(!isEmpty(changes))
     {
       this.submitChanges(changes);
     }
