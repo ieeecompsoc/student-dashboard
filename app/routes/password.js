@@ -9,7 +9,6 @@ const User = require('../models/user');
 const Student = require('../models/student');
 const nodemailer = require('nodemailer');
 var bcrypt = require('bcrypt');
-var SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR;
 
 
 // create reusable transporter object using the default SMTP transport
