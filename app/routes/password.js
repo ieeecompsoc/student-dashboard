@@ -129,7 +129,7 @@ route.post('/reset', function (req, res) {
             });
     })
 
-})
+});
 
 
 module.exports = route;
