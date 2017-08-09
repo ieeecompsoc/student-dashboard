@@ -2,14 +2,13 @@
  * Created by hackbansu on 15/7/17.
  */
 const express = require('express');
-const router = express.Router();
+const route = express.Router();
 const assert = require('assert');
 const path = require('path');
 const User = require('../models/user');
 const Student = require('../models/student');
 const nodemailer = require('nodemailer');
 var bcrypt = require('bcrypt');
-var SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR;
 
 
 // create reusable transporter object using the default SMTP transport
@@ -39,7 +38,7 @@ function getID() {
 }
 
 
-router.get('/forgot', function (req, res) {
+route.get('/forgot', function (req, res) {
     if (!req.query.enrollment) {
         return res.status(400).json({success: false, msg: "Please submit your enrollment number"});
     }
@@ -74,7 +73,7 @@ router.get('/forgot', function (req, res) {
     });
 })
 
-router.get('/mailPage', function (req, res) {
+route.get('/mailPage', function (req, res) {
     let enrollment = req.query.enrollment;
     let reset_token = req.query.reset_token;
     if (!enrollment || !reset_token || enrollment.length !== 11)
@@ -84,7 +83,7 @@ router.get('/mailPage', function (req, res) {
     res.render('index', {linkToReset: linkToReset, domain: process.env.DOMAIN})
 })
 
-router.post('/checkResetToken', function (req, res) {
+route.post('/checkResetToken', function (req, res) {
     if (!req.body.enrollment || !req.body.reset_token || req.body.enrollment.length !== 11)
         return res.status(400).json({success: false, msg: "Invalid"});
     User.findOne({
@@ -101,7 +100,7 @@ router.post('/checkResetToken', function (req, res) {
     });
 })
 
-router.post('/reset', function (req, res) {
+route.post('/reset', function (req, res) {
     if (!req.body.enrollment || !req.body.reset_token || !req.body.password)
         return res.status(400).json({success: false, msg: "Invalid request"});
     let enrollment = req.body.enrollment, reset_token = req.body.reset_token, password = req.body.password;
@@ -133,4 +132,4 @@ router.post('/reset', function (req, res) {
 })
 
 
-module.exports = router;
+module.exports = route;

@@ -1,7 +1,7 @@
 var bcrypt = require('bcrypt');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR;
+var SALT_WORK_FACTOR = parseInt(process.env.SALT_WORK_FACTOR);
 
 var User = new Schema({
     enrollment: {
@@ -32,7 +32,6 @@ var User = new Schema({
 });
 
 User.pre('save', function (next) {
-    console.log('inside Save !!');
     var user = this;
     now = new Date();
     user.updated_at = now;

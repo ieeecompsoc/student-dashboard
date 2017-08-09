@@ -9,7 +9,8 @@ const routes = {
     password: require('./routes/password'),
     getResults: require('./routes/getResults'),
     editInfo: require('./routes/editInfo'),
-}
+    admin: require("./routes/admin"),
+};
 
 var router = express.Router();
 
@@ -45,6 +46,7 @@ router.post('/addUser', routes.addUser);
 router.get('/getUsers', routes.getUsers);
 router.get('/getResults', routes.getResults);
 router.post('/editInfo', routes.editInfo);
+router.use('/admin', routes.admin);
 
 
 module.exports = router;
